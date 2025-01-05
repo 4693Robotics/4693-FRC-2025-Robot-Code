@@ -13,8 +13,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.I2C.Port;
+import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
 import frc.robot.Constants.DriveConstants;
 import frc.Utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,7 +42,7 @@ public class DriveSubsystem extends SubsystemBase {
     DriveConstants.kBackRightChassisAngularOffset);
 
   // The gyro sensor
-  private final AHRS m_gyro = new AHRS(Port.kOnboard);
+  private final AHRS m_gyro = new AHRS(NavXComType.kUSB1);
 
   SwerveModuleState m_moduleStates[];
   // Slew rate filter variables for controlling lateral acceleration

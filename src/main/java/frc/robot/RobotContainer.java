@@ -4,20 +4,26 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.Constants.OIConstants;
 import frc.robot.Subsystems.DriveSubsystem;
 
 public class RobotContainer {
 
-  private final DriveSubsystem robotDrive = new DriveSubsystem();
+  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
   private final XboxController m_driveController = new XboxController(0);
   private final XboxController m_subsystemsController = new XboxController(1);
 
   public RobotContainer() {
+
     configureBindings();
+
+    configureDefaultCommands();
   }
 
   public void periodic() {
@@ -25,7 +31,19 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    
+  }
 
+  private void configureDefaultCommands() {
+     m_robotDrive.setDefaultCommand(
+      new RunCommand(
+        () -> m_robotDrive.drive(
+          -MathUtil.applyDeadband(m_driveController.getLeftY(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driveController.getLeftX(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(m_driveController.getRightX(), OIConstants.kDriveDeadband),
+          true,
+          true),
+          m_robotDrive));
   }
 
   public Command getAutonomousCommand() {

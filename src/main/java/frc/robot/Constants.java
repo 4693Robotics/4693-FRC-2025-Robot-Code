@@ -113,22 +113,14 @@ public final class Constants {
         public static final int kDrivingMotorCurrentLimit = 50; // amps
         public static final int kTurningMotorCurrentLimit = 20; // amps
     }
-    public static final class IntakeConstants {
-        public static final int kIntakeArmCanId = 9;
-        public static final int kIntakeTopRollerCanId = 10;
-        public static final int kIntakeBottomRollerCanId = 11;
 
-        public static final IdleMode kIntakeArmIdleMode = IdleMode.kBrake;
-        public static final IdleMode kIntakeTopRollerIdleMode = IdleMode.kBrake;
-        public static final IdleMode kIntakeBottomRollerIdleMode = IdleMode.kBrake;
+    public static final class HangerConstants {
 
-        public static final boolean kIntakeArmInverted = false;
-        public static final boolean kIntakeTopRollerInverted = true;
-        public static final boolean kIntakeBottomRollerInverted = true;
+        public static final int kHangerSparkMaxCanId = 9;
 
-        public static final int kIntakeArmCurrentLimit = 50; // amps
-        public static final int kIntakeTopRollerCurrentLimit = 20; // amps
-        public static final int kIntakeBottomRollerCurrentLimit = 20; // amps
+        public static final IdleMode kHangerSparkMaxIdleMode = IdleMode.kBrake;
+
+        public static final int kHangerSparkMaxCurrentLimit = 50; // amps
     }
 
     public static final class NeoMotorConstants {

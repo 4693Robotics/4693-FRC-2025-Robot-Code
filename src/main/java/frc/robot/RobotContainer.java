@@ -5,53 +5,32 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Subsystems.DriveSubsystem;
-import frc.robot.Subsystems.NewSubsystem;
+import frc.robot.Subsystems.HangerSubsystem;
 
 public class RobotContainer {
 
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private NewSubsystem m_NewSubsystem = new NewSubsystem();
+  private final HangerSubsystem m_HangerSubsystem = new HangerSubsystem();
 
   private final XboxController m_driveController = new XboxController(0);
   private final XboxController m_subsystemsController = new XboxController(1);
-
-  private final ShuffleboardTab telopTab = Shuffleboard.getTab("Telop");
-
-  private boolean testBool = false;
-  private Timer timer = new Timer();
-
-  private final SimpleWidget testBoolWidget = telopTab
-  .add("Boolean", testBool)
-  .withWidget(BuiltInWidgets.kBooleanBox);
-
 
   public RobotContainer() {
 
     configureBindings();
 
     configureDefaultCommands();
-    timer.start();
+
   }
 
   public void periodic() {
-    if (timer.get() % 2 < 1) {
-      testBool = true;
-    } else {
-      testBool = false;
-    }
-
-    testBoolWidget.getEntry().setBoolean(testBool);
+    
   }
 
   private void configureBindings() {
@@ -71,7 +50,13 @@ public class RobotContainer {
           -MathUtil.applyDeadband(m_driveController.getRightX(), OIConstants.kDriveDeadband),
           true,
           true),
-          m_robotDrive));
+        m_robotDrive));
+
+    m_HangerSubsystem.setDefaultCommand(
+      new RunCommand(() -> m_HangerSubsystem.setHangerMotorSpeed(
+        m_subsystemsController.getLeftY()),
+        m_HangerSubsystem)
+    );
   }
 
   public Command getAutonomousCommand() {

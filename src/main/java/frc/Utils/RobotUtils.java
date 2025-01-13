@@ -2,7 +2,7 @@ package frc.Utils;
 
 public class RobotUtils {
 
-    public class BooleanStateChange {
+    public static class BooleanStateChange {
         private boolean currentState = false; // current state of the boolean
         private boolean previousState = false; // previous state of the boolean
 

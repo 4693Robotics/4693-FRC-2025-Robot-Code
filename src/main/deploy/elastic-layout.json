@@ -1,0 +1,120 @@
+{
+  "version": 1.0,
+  "grid_size": 128,
+  "tabs": [
+    {
+      "name": "Pre Game",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "Auto Chooser",
+            "x": 1664.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/Shuffleboard/Pre Game/Auto Chooser",
+              "period": 0.06,
+              "sort_options": false
+            }
+          },
+          {
+            "title": "Gyro Connection",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Shuffleboard/Pre Game/Gyro Connection",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "Gyro",
+            "x": 1536.0,
+            "y": 512.0,
+            "width": 384.0,
+            "height": 384.0,
+            "type": "Gyro",
+            "properties": {
+              "topic": "/Shuffleboard/Pre Game/Gyro",
+              "period": 0.06,
+              "counter_clockwise_positive": false
+            }
+          },
+          {
+            "title": "Team",
+            "x": 1152.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/FMSInfo/IsRedAlliance",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4293989400,
+              "false_color": 4279053533,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          },
+          {
+            "title": "PDH",
+            "x": 256.0,
+            "y": 0.0,
+            "width": 384.0,
+            "height": 512.0,
+            "type": "PowerDistribution",
+            "properties": {
+              "topic": "/Shuffleboard/Pre Game/PDH",
+              "period": 0.06
+            }
+          },
+          {
+            "title": "Reset Gyro",
+            "x": 1280.0,
+            "y": 768.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "Command",
+            "properties": {
+              "topic": "/Shuffleboard/Pre Game/Reset Gyro",
+              "period": 0.06,
+              "show_type": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Auto",
+      "grid_layout": {
+        "layouts": [],
+        "containers": []
+      }
+    },
+    {
+      "name": "Teleop",
+      "grid_layout": {
+        "layouts": [],
+        "containers": []
+      }
+    },
+    {
+      "name": "Test",
+      "grid_layout": {
+        "layouts": [],
+        "containers": []
+      }
+    }
+  ]
+}

@@ -13,10 +13,21 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
+
+import frc.robot.Commands.ResetGyro;
 import frc.robot.Constants.DriveConstants;
+import frc.Utils.Elastic;
 import frc.Utils.SwerveUtils;
+import frc.Utils.Elastic.Notification;
+import frc.Utils.Elastic.Notification.NotificationLevel;
+import frc.Utils.RobotUtils.BooleanStateChange;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -65,6 +76,17 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.getPosition()
       });
 
+  private ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
+
+  private SimpleWidget boolWidget = PreGameTab
+  .add("Gyro Connection", m_gyro.isConnected());
+
+  private ComplexWidget gyroAngleWidget = PreGameTab
+    .add("Gyro", m_gyro);
+  
+  private ComplexWidget gyroResetWidget = PreGameTab
+    .add("Reset Gyro", new ResetGyro(m_gyro));
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
   }
@@ -81,6 +103,7 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.getPosition()
       });
 
+      boolWidget.getEntry().setBoolean(m_gyro.isConnected());
   }
 
   /**

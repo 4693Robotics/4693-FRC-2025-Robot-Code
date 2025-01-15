@@ -87,6 +87,15 @@ public class DriveSubsystem extends SubsystemBase {
   private ComplexWidget gyroResetWidget = PreGameTab
     .add("Reset Gyro", new ResetGyro(m_gyro));
 
+  private BooleanStateChange gyroConnectionChange = new BooleanStateChange(
+    () -> Elastic.sendNotification(new Notification(
+      NotificationLevel.INFO,
+      "Gyro Connected", "The Gyro has been Connected")),
+    () -> Elastic.sendNotification(new Notification(
+      NotificationLevel.WARNING,
+      "Gyro Disconnect",
+      "The Gyro has been Disconnected")));
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
   }
@@ -104,6 +113,8 @@ public class DriveSubsystem extends SubsystemBase {
       });
 
       boolWidget.getEntry().setBoolean(m_gyro.isConnected());
+
+      gyroConnectionChange.checkStateChange(m_gyro.isConnected());
   }
 
   /**

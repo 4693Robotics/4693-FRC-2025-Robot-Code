@@ -8,20 +8,31 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Commands.AlgaeSubsystemDefault;
+import frc.robot.Commands.CoralIntakeSubsystemDefault;
+import frc.robot.Subsystems.CoralIntakeSubsystem;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Subsystems.DriveSubsystem;
-import frc.robot.Subsystems.HangerSubsystem;
+import frc.robot.Subsystems.ElevatorSubsystem;
+import frc.robot.Subsystems.VisionSubsystem;
+import frc.robot.Subsystems.AlgaeSubsystem;
 
 public class RobotContainer {
 
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final HangerSubsystem m_HangerSubsystem = new HangerSubsystem();
+  private final AlgaeSubsystem m_robotAlgaeSubsystem = new AlgaeSubsystem();
+  private final CoralIntakeSubsystem m_robotCoralIntakeSubsystem = new CoralIntakeSubsystem();
+  private final ElevatorSubsystem m_robotElevatorSubsystem = new ElevatorSubsystem();
+  private final VisionSubsystem m_robotVision = new VisionSubsystem();
 
   private final XboxController m_driveController = new XboxController(0);
   private final XboxController m_subsystemsController = new XboxController(1);
@@ -44,7 +55,24 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    new JoystickButton(m_driveController, Button.kRightBumper.value)
+      .whileTrue(new RunCommand(
+        () -> m_robotDrive.setX(),
+         m_robotDrive));
+
+    new JoystickButton(m_driveController, Button.kLeftBumper.value)
+      .onTrue(new InstantCommand(
+        () -> m_robotDrive.zeroHeading(),
+        m_robotDrive));
     
+    new JoystickButton(m_driveController, Button.kA.value)
+      .toggleOnTrue(new RunCommand(() -> m_robotDrive.drive(
+        -MathUtil.applyDeadband(m_driveController.getLeftY(), OIConstants.kDriveDeadband),
+        -MathUtil.applyDeadband(m_driveController.getLeftX(), OIConstants.kDriveDeadband),
+        -MathUtil.applyDeadband(m_driveController.getRightX(), OIConstants.kDriveDeadband),
+        false,
+        true),
+        m_robotDrive));
   }
 
   private void configureDashboard() {
@@ -71,10 +99,12 @@ public class RobotContainer {
           true),
         m_robotDrive));
 
-    m_HangerSubsystem.setDefaultCommand(
-      new RunCommand(() -> m_HangerSubsystem.setHangerMotorSpeed(
-        m_subsystemsController.getLeftY()),
-        m_HangerSubsystem)
+    m_robotAlgaeSubsystem.setDefaultCommand(
+      new AlgaeSubsystemDefault(m_robotAlgaeSubsystem, m_subsystemsController)
+    );
+
+    m_robotCoralIntakeSubsystem.setDefaultCommand(
+      new CoralIntakeSubsystemDefault(m_robotCoralIntakeSubsystem, m_subsystemsController)
     );
   }
 

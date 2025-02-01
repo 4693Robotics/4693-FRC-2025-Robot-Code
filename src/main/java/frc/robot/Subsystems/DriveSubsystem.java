@@ -12,6 +12,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -76,7 +80,7 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.getPosition()
       });
 
-  private ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
+  ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
 
   private SimpleWidget boolWidget = PreGameTab
   .add("Gyro Connection", m_gyro.isConnected());
@@ -104,6 +108,26 @@ public class DriveSubsystem extends SubsystemBase {
       });
 
       boolWidget.getEntry().setBoolean(m_gyro.isConnected());
+
+          // Get NetworkTable instance and table reference
+    NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
+    NetworkTable table = ntInstance.getTable("SwerveDrive");
+
+    /*  Update NetworkTable entries with the latest values from the modules
+    table.getEntry("Front Left Angle").setDouble(m_frontLeft.getPosition().angle.getRadians());
+    table.getEntry("Front Left Velocity").setDouble(m_frontLeft.getState().speedMetersPerSecond);
+
+    table.getEntry("Front Right Angle").setDouble(m_frontRight.getPosition().angle.getRadians());
+    table.getEntry("Front Right Velocity").setDouble(m_frontRight.getState().speedMetersPerSecond);
+
+    table.getEntry("Back Left Angle").setDouble(m_rearLeft.getPosition().angle.getRadians());
+    table.getEntry("Back Left Velocity").setDouble(m_rearLeft.getState().speedMetersPerSecond);
+
+    table.getEntry("Back Right Angle").setDouble(m_rearRight.getPosition().angle.getRadians());
+    table.getEntry("Back Right Velocity").setDouble(m_rearRight.getState().speedMetersPerSecond);
+
+    table.getEntry("Robot Angle").setDouble(Units.degreesToRadians(m_gyro.getAngle()));
+      */
   }
 
   /**

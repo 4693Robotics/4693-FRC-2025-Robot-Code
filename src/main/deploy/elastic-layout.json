@@ -39,8 +39,8 @@
           },
           {
             "title": "Gyro",
-            "x": 1536.0,
-            "y": 512.0,
+            "x": 640.0,
+            "y": 0.0,
             "width": 384.0,
             "height": 384.0,
             "type": "Gyro",
@@ -52,8 +52,8 @@
           },
           {
             "title": "Team",
-            "x": 1152.0,
-            "y": 0.0,
+            "x": 0.0,
+            "y": 128.0,
             "width": 256.0,
             "height": 256.0,
             "type": "Boolean Box",
@@ -81,8 +81,8 @@
           },
           {
             "title": "Reset Gyro",
-            "x": 1280.0,
-            "y": 768.0,
+            "x": 640.0,
+            "y": 384.0,
             "width": 256.0,
             "height": 128.0,
             "type": "Command",
@@ -90,6 +90,20 @@
               "topic": "/Shuffleboard/Pre Game/Reset Gyro",
               "period": 0.06,
               "show_type": false
+            }
+          },
+          {
+            "title": "Swerve Drive",
+            "x": 1024.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "SwerveDrive",
+            "properties": {
+              "topic": "/SwerveDrive",
+              "period": 0.06,
+              "show_robot_rotation": true,
+              "rotation_unit": "Radians"
             }
           }
         ]
@@ -113,7 +127,25 @@
       "name": "Test",
       "grid_layout": {
         "layouts": [],
-        "containers": []
+        "containers": [
+          {
+            "title": "Gyro Connection",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Shuffleboard/Pre Game/Gyro Connection",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          }
+        ]
       }
     }
   ]

@@ -33,9 +33,9 @@ public final class Constants {
         public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
         // Chassis configuration
-        public static final double kTrackWidth = Units.inchesToMeters(25.5);
+        public static final double kTrackWidth = Units.inchesToMeters(23.5);
         // Distance between centers of right and left wheels on robot
-        public static final double kWheelBase = Units.inchesToMeters(25.5);
+        public static final double kWheelBase = Units.inchesToMeters(23.5);
         // Distance between front and back wheels on robot
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -114,13 +114,13 @@ public final class Constants {
         public static final int kTurningMotorCurrentLimit = 20; // amps
     }
 
-    public static final class HangerConstants {
+    public static final class AlgaeSubsystem {
 
-        public static final int kHangerSparkMaxCanId = 9;
+        public static final int kAlgaeArmCanId = 9;
 
-        public static final IdleMode kHangerSparkMaxIdleMode = IdleMode.kBrake;
-
-        public static final int kHangerSparkMaxCurrentLimit = 50; // amps
+        public static final double kAlgaeArmP = 0.0003;
+        public static final double kAlgaeArmI = 0;
+        public static final double kAlgaeArmD = 0;
     }
 
     public static final class NeoMotorConstants {

@@ -27,6 +27,7 @@ public class CoralIntakeSubsystemDefault extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        coralIntakeSubsystem.setCoralIntakeSpeed(0);
         coralIntakeSubsystem.setNuckleSpeed(0);
     }
 

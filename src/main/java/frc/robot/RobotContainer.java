@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Commands.AlgaeSubsystemDefault;
 import frc.robot.Commands.CoralIntakeSubsystemDefault;
+import frc.robot.Commands.ElevatorSubsystemDefault;
 import frc.robot.Subsystems.CoralIntakeSubsystem;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Subsystems.DriveSubsystem;
@@ -105,6 +106,10 @@ public class RobotContainer {
 
     m_robotCoralIntakeSubsystem.setDefaultCommand(
       new CoralIntakeSubsystemDefault(m_robotCoralIntakeSubsystem, m_subsystemsController)
+    );
+
+    m_robotElevatorSubsystem.setDefaultCommand(
+      new ElevatorSubsystemDefault(m_robotElevatorSubsystem, m_subsystemsController)
     );
   }
 

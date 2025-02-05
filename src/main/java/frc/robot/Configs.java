@@ -92,5 +92,19 @@ public final class Configs {
                                 .smartCurrentLimit(20);
                 }
         }
+
+        public static final class ElevatorSubsystem {
+                public static final SparkMaxConfig elevatorMotorConfig = new SparkMaxConfig();
+
+                static {
+                        elevatorMotorConfig
+                                .idleMode(IdleMode.kBrake)
+                                .smartCurrentLimit(50);
+                        
+                        elevatorMotorConfig.closedLoop
+                                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                                .pid(0.1, 0, 0);
+                }
+        }
     
 }

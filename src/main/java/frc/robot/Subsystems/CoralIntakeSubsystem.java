@@ -20,16 +20,6 @@ public class CoralIntakeSubsystem extends SubsystemBase {
             Configs.CoralIntakeSubsystem.nuckleMotorConfig, 
             ResetMode.kResetSafeParameters, 
             PersistMode.kNoPersistParameters);
-        
-        m_intakeMotorLeft.configure(
-            Configs.CoralIntakeSubsystem.nuckleMotorConfig, 
-            ResetMode.kResetSafeParameters, 
-            PersistMode.kNoPersistParameters);
-
-        m_intakeMotorRight.configure(
-            Configs.CoralIntakeSubsystem.nuckleMotorConfig, 
-            ResetMode.kResetSafeParameters, 
-            PersistMode.kNoPersistParameters);  
 
     }
     

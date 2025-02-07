@@ -116,7 +116,9 @@ public final class Constants {
 
     public static final class AlgaeSubsystem {
 
-        public static final int kAlgaeArmCanId = 9;
+        public static final int kAlgaeArmCanId = 10;
+        public static final int kAlgaeRightIntakeCanId = 11;
+        public static final int kAlgaeLeftIntakeCanId = 12;
 
         public static final double kAlgaeArmP = 0.0003;
         public static final double kAlgaeArmI = 0;

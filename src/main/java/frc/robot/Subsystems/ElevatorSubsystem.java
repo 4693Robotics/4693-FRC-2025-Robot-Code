@@ -27,6 +27,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     
     public void periodic() {
         m_ElevatorClosedLoop.setReference(elevatorSetpoint, ControlType.kPosition);
+
+        
     } 
 
     public void setElevatorSetpoint(double setpoint) {

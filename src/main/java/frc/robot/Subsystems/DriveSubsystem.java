@@ -15,7 +15,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.units.Unit;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -27,11 +26,7 @@ import com.studica.frc.AHRS.NavXComType;
 
 import frc.robot.Commands.ResetGyro;
 import frc.robot.Constants.DriveConstants;
-import frc.Utils.Elastic;
 import frc.Utils.SwerveUtils;
-import frc.Utils.Elastic.Notification;
-import frc.Utils.Elastic.Notification.NotificationLevel;
-import frc.Utils.RobotUtils.BooleanStateChange;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -85,9 +80,11 @@ public class DriveSubsystem extends SubsystemBase {
   private SimpleWidget boolWidget = PreGameTab
   .add("Gyro Connection", m_gyro.isConnected());
 
+  @SuppressWarnings("unused")
   private ComplexWidget gyroAngleWidget = PreGameTab
     .add("Gyro", m_gyro);
   
+  @SuppressWarnings("unused")
   private ComplexWidget gyroResetWidget = PreGameTab
     .add("Reset Gyro", new ResetGyro(m_gyro));
 
@@ -113,7 +110,7 @@ public class DriveSubsystem extends SubsystemBase {
     NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
     NetworkTable table = ntInstance.getTable("SwerveDrive");
 
-    /*  Update NetworkTable entries with the latest values from the modules
+    //  Update NetworkTable entries with the latest values from the modules
     table.getEntry("Front Left Angle").setDouble(m_frontLeft.getPosition().angle.getRadians());
     table.getEntry("Front Left Velocity").setDouble(m_frontLeft.getState().speedMetersPerSecond);
 
@@ -127,7 +124,7 @@ public class DriveSubsystem extends SubsystemBase {
     table.getEntry("Back Right Velocity").setDouble(m_rearRight.getState().speedMetersPerSecond);
 
     table.getEntry("Robot Angle").setDouble(Units.degreesToRadians(m_gyro.getAngle()));
-      */
+      
   }
 
   /**

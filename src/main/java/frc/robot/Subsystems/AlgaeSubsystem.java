@@ -2,7 +2,6 @@ package frc.robot.Subsystems;
 
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkMaxAlternateEncoder;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -44,11 +43,11 @@ public class AlgaeSubsystem extends SubsystemBase {
     }
 
     public void setAlgaeArmSpeed(double speed) {
-        m_algaeArm.set(speed / 5);
+        m_algaeArm.set(speed * 0.2);
     }
 
     public void setAlgaeIntakeSpeed(double speed) {
-        m_algaeIntake.set(speed / 1.3);
+        m_algaeIntake.set(speed * 0.8);
     }
 
 }

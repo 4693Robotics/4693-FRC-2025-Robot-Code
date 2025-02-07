@@ -99,7 +99,8 @@ public final class Configs {
                 static {
                         elevatorMotorConfig
                                 .idleMode(IdleMode.kBrake)
-                                .smartCurrentLimit(50);
+                                .smartCurrentLimit(50)
+                                .inverted(true);
                         
                         elevatorMotorConfig.closedLoop
                                 .feedbackSensor(FeedbackSensor.kPrimaryEncoder)

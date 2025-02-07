@@ -1,5 +1,7 @@
 package frc.robot.Commands;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,22 +24,31 @@ public class ElevatorSubsystemDefault extends Command {
         this.controller = controller;
 
         addRequirements(elevatorSubsystem);
+
+        controllerSetpoint = 0;
     }
 
     @Override
     public void initialize() {
-        controllerSetpoint = 0;
+        
     }
 
     @Override
     public void execute() {
         if (controller.getPOV() == 0) {
-            controllerSetpoint = JoystickUtils.joystickSlider( 0.2, controllerSetpoint);
+            controllerSetpoint = JoystickUtils.joystickSlider( 10, controllerSetpoint, 337, 0);
         }
 
         if (controller.getPOV() == 180) {
-            controllerSetpoint = JoystickUtils.joystickSlider( -0.2, controllerSetpoint);
+            controllerSetpoint = JoystickUtils.joystickSlider( -10, controllerSetpoint, 337, 0);
         }
+
+        NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
+        NetworkTable table = ntInstance.getTable("ElevatorSusbsytem");
+
+        table.getEntry("Elevator Setpoint").setDouble(controllerSetpoint);
+
+        elevatorSubsystem.setElevatorSetpoint(controllerSetpoint);
     }
 
     @Override

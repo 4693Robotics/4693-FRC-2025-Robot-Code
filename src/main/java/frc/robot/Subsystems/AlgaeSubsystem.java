@@ -11,15 +11,23 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
+import frc.robot.Constants;
+import frc.robot.Utils.NetworkTableManager;
 
 public class AlgaeSubsystem extends SubsystemBase {
 
-    private final SparkMax m_algaeArm = new SparkMax(10, MotorType.kBrushless);
-    private final SparkMax m_algaeIntake = new SparkMax(11, MotorType.kBrushless);
+    private final SparkMax m_algaeArm = new SparkMax(
+        Constants.AlgaeSubsystem.kAlgaeArmCanId,
+        MotorType.kBrushless);
+
+    private final SparkMax m_algaeIntake = new SparkMax(
+        Constants.AlgaeSubsystem.kAlgaeIntakeCanId,
+        MotorType.kBrushless);
 
     private final SparkClosedLoopController m_algaeArmClosedLoop = m_algaeArm.getClosedLoopController();
 
-    private double armSetpoint = 0;
+    //Sets the arms init setpoint for the closed PID loop also known as starting point for enable
+    private double armSetpoint = Constants.AlgaeSubsystem.kAlgaeArmDefaultSetpoint;
 
     public AlgaeSubsystem() {
         m_algaeArm.configure(
@@ -40,7 +48,8 @@ public class AlgaeSubsystem extends SubsystemBase {
         NetworkTable table = ntInstance.getTable("AlgaeSubsystem");
 
         table.getEntry("Arm Setpoint").setDouble(m_algaeArm.getAlternateEncoder().getPosition());
-    }
+        NetworkTableManager.getInstance().putNumber("AlgaeSubystem/ArmSetpoint", m_algaeArm.getAlternateEncoder().getPosition());
+    } 
 
     public void setAlgaeArmSpeed(double speed) {
         m_algaeArm.set(speed * 0.2);

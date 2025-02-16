@@ -26,7 +26,7 @@ import com.studica.frc.AHRS.NavXComType;
 
 import frc.robot.Commands.ResetGyro;
 import frc.robot.Constants.DriveConstants;
-import frc.Utils.SwerveUtils;
+import frc.robot.Utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {

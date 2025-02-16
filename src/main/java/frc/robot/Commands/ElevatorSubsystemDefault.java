@@ -3,11 +3,9 @@ package frc.robot.Commands;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.Utils.RobotUtils;
-import frc.Utils.RobotUtils.JoystickUtils;
 import frc.robot.Subsystems.ElevatorSubsystem;
+import frc.robot.Utils.RobotUtils.JoystickUtils;
 
 public class ElevatorSubsystemDefault extends Command {
 

@@ -7,28 +7,50 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
+import frc.robot.Constants.CoralIntakeSubsystemConstants;
+import frc.robot.Utils.NetworkTableManager;
 
 public class CoralIntakeSubsystem extends SubsystemBase {
 
-    private SparkMax m_nuckleMotor = new SparkMax(20, MotorType.kBrushless);
-    private SparkMax m_intakeMotorLeft = new SparkMax(21, MotorType.kBrushless);
-    private SparkMax m_intakeMotorRight = new SparkMax(22, MotorType.kBrushless);
+    private SparkMax m_nuckle = new SparkMax(
+        CoralIntakeSubsystemConstants.kNuckleCanId,
+        MotorType.kBrushless);
+    private SparkMax m_intakeLeft = new SparkMax(
+        CoralIntakeSubsystemConstants.kIntakeLeft,
+        MotorType.kBrushless);
+    private SparkMax m_intakeRight = new SparkMax(
+        CoralIntakeSubsystemConstants.kIntakeRight,
+        MotorType.kBrushless);
 
     public CoralIntakeSubsystem() {
 
-        m_nuckleMotor.configure(
-            Configs.CoralIntakeSubsystem.nuckleMotorConfig, 
+        m_nuckle.configure(
+            Configs.CoralIntakeSubsystem.nuckleConfig, 
             ResetMode.kResetSafeParameters, 
             PersistMode.kNoPersistParameters);
 
+        m_intakeLeft.configure(
+            Configs.CoralIntakeSubsystem.intakeLeftConfig,
+            ResetMode.kResetSafeParameters,
+            PersistMode.kPersistParameters);
+
+        m_intakeRight.configure(
+            Configs.CoralIntakeSubsystem.intakeRightConfig,
+            ResetMode.kResetSafeParameters,
+            PersistMode.kPersistParameters);
+    }
+
+    @Override
+    public void periodic() {
+        NetworkTableManager.getInstance().putNumber("CoralIntakeSubsystem/NuckleSpeed", m_nuckle.get());
     }
     
     public void setNuckleSpeed(double speed) {
-        m_nuckleMotor.set(speed * 0.1);
+        m_nuckle.set(speed * 0.1);
     } 
 
     public void setCoralIntakeSpeed(double speed) {
-        m_intakeMotorLeft.set(speed);
-        m_intakeMotorRight.set(speed);
+        m_intakeLeft.set(speed);
+        m_intakeRight.set(speed);
     }
 }

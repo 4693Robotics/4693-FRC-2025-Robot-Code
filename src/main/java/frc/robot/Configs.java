@@ -63,19 +63,7 @@ public final class Configs {
 
                 algaeArmConfig
                         .idleMode(IdleMode.kBrake)
-                        .smartCurrentLimit(50)
-                        .inverted(false);
-                
-                algaeArmConfig.alternateEncoder
-                        .countsPerRevolution(1);
-                algaeArmConfig.closedLoop
-                        .feedbackSensor(FeedbackSensor.kAlternateOrExternalEncoder)
-                        .pid(
-                                Constants.AlgaeSubsystem.kAlgaeArmP,
-                                Constants.AlgaeSubsystem.kAlgaeArmI,
-                                Constants.AlgaeSubsystem.kAlgaeArmD)
-                        .outputRange(-0.2, 0.2);
-
+                        .smartCurrentLimit(50);
                 
                 algaeIntakeConfig
                         .idleMode(IdleMode.kBrake)
@@ -84,10 +72,20 @@ public final class Configs {
         } 
 
         public static final class CoralIntakeSubsystem {
-                public static final SparkMaxConfig nuckleMotorConfig = new SparkMaxConfig();
+                public static final SparkMaxConfig nuckleConfig = new SparkMaxConfig();
+                public static final SparkMaxConfig intakeLeftConfig = new SparkMaxConfig();
+                public static final SparkMaxConfig intakeRightConfig = new SparkMaxConfig();
 
                 static {
-                        nuckleMotorConfig
+                        nuckleConfig
+                                .idleMode(IdleMode.kBrake)
+                                .smartCurrentLimit(20);
+                        
+                        intakeLeftConfig
+                                .idleMode(IdleMode.kBrake)
+                                .smartCurrentLimit(20);
+
+                        intakeRightConfig
                                 .idleMode(IdleMode.kBrake)
                                 .smartCurrentLimit(20);
                 }

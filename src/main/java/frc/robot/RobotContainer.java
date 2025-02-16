@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -25,7 +23,6 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Subsystems.DriveSubsystem;
 import frc.robot.Subsystems.ElevatorSubsystem;
 import frc.robot.Subsystems.VisionSubsystem;
-import frc.robot.Utils.NetworkTableManager;
 import frc.robot.Subsystems.AlgaeSubsystem;
 
 public class RobotContainer {
@@ -48,8 +45,6 @@ public class RobotContainer {
     configureBindings();
 
     configureDefaultCommands();
-
-    configureDashboard();
   }
 
   public void periodic() {
@@ -75,19 +70,6 @@ public class RobotContainer {
         false,
         true),
         m_robotDrive));
-  }
-
-  private void configureDashboard() {
-    ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
-    ShuffleboardTab AutoTab = Shuffleboard.getTab("Auto");
-    ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
-    ShuffleboardTab TestTab = Shuffleboard.getTab("Test");
-
-    PreGameTab.add("Auto Chooser", autoChooser);
-
-    PreGameTab.add("PDH", m_PDH);
-
-
   }
 
   private void configureDefaultCommands() {

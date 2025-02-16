@@ -1,21 +1,20 @@
 package frc.robot.Commands;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.Subsystems.ElevatorSubsystem;
+import frc.robot.Utils.NetworkTableManager;
 import frc.robot.Utils.RobotUtils.JoystickUtils;
 
 public class ElevatorSubsystemDefault extends Command {
 
     private ElevatorSubsystem elevatorSubsystem;
 
-    private GenericHID controller;
+    private CommandGenericHID controller;
 
     private double controllerSetpoint;
 
-    public ElevatorSubsystemDefault(ElevatorSubsystem elevatorSubsystem, GenericHID controller) {
+    public ElevatorSubsystemDefault(ElevatorSubsystem elevatorSubsystem, CommandGenericHID controller) {
 
         this.elevatorSubsystem = elevatorSubsystem;
 
@@ -33,18 +32,15 @@ public class ElevatorSubsystemDefault extends Command {
 
     @Override
     public void execute() {
-        if (controller.getPOV() == 0) {
+        if (controller.povUp().getAsBoolean()) {
             controllerSetpoint = JoystickUtils.joystickSlider( 10, controllerSetpoint, 337, 0);
         }
 
-        if (controller.getPOV() == 180) {
+        if (controller.povDown().getAsBoolean()) {
             controllerSetpoint = JoystickUtils.joystickSlider( -10, controllerSetpoint, 337, 0);
         }
 
-        NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
-        NetworkTable table = ntInstance.getTable("ElevatorSusbsytem");
-
-        table.getEntry("Elevator Setpoint").setDouble(controllerSetpoint);
+        NetworkTableManager.getInstance().putNumber("ElevatorSubsystem/ElevatorSetpoint", controllerSetpoint);
 
         elevatorSubsystem.setElevatorSetpoint(controllerSetpoint);
     }

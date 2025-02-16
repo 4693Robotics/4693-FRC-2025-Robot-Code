@@ -6,15 +6,13 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.AlgaeSubsystemDefault;
 import frc.robot.Commands.CoralIntakeSubsystemDefault;
 import frc.robot.Commands.ElevatorSubsystemDefault;
@@ -33,8 +31,8 @@ public class RobotContainer {
   private final ElevatorSubsystem m_robotElevatorSubsystem = new ElevatorSubsystem();
   private final VisionSubsystem m_robotVision = new VisionSubsystem();
 
-  private final XboxController m_driveController = new XboxController(0);
-  private final XboxController m_subsystemsController = new XboxController(1);
+  private final CommandXboxController m_driveController = new CommandXboxController(0);
+  private final CommandXboxController m_subsystemsController = new CommandXboxController(1);
 
   private PowerDistribution m_PDH = new PowerDistribution(1, ModuleType.kRev);
 
@@ -52,24 +50,14 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    new JoystickButton(m_driveController, Button.kRightBumper.value)
-      .whileTrue(new RunCommand(
-        () -> m_robotDrive.setX(),
-         m_robotDrive));
 
-    new JoystickButton(m_driveController, Button.kLeftBumper.value)
-      .onTrue(new InstantCommand(
-        () -> m_robotDrive.zeroHeading(),
-        m_robotDrive));
-    
-    new JoystickButton(m_driveController, Button.kA.value)
-      .toggleOnTrue(new RunCommand(() -> m_robotDrive.drive(
-        -MathUtil.applyDeadband(m_driveController.getLeftY(), OIConstants.kDriveDeadband),
-        -MathUtil.applyDeadband(m_driveController.getLeftX(), OIConstants.kDriveDeadband),
-        -MathUtil.applyDeadband(m_driveController.getRightX(), OIConstants.kDriveDeadband),
-        false,
-        true),
-        m_robotDrive));
+    m_driveController.rightBumper().whileTrue(new RunCommand(
+      () -> m_robotDrive.setX(),
+      m_robotDrive));
+
+    m_driveController.leftBumper().onTrue(new InstantCommand(
+      () -> m_robotDrive.zeroHeading(),
+      m_robotDrive));
   }
 
   private void configureDefaultCommands() {

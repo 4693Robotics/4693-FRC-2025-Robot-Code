@@ -37,12 +37,22 @@ public class DriveSubsytemDefault extends Command{
 
     @Override
     public void execute() {
-        
+        driveSubsystem.drive(
+            xSpeed.getAsDouble(),
+            ySpeed.getAsDouble(),
+            rot.getAsDouble(),
+            fieldRelative.getAsBoolean(),
+            true);
     }
 
     @Override
     public void end(boolean interrupted) {
-        
+        driveSubsystem.drive(
+            0,
+            0,
+            0,
+            true,
+            true);
     }
 
     @Override

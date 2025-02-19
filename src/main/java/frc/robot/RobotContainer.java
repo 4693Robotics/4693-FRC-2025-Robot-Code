@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.AlgaeSubsystemDefault;
 import frc.robot.Commands.CoralIntakeSubsystemDefault;
 import frc.robot.Commands.ElevatorSubsystemDefault;
@@ -21,6 +22,8 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Subsystems.DriveSubsystem;
 import frc.robot.Subsystems.ElevatorSubsystem;
 import frc.robot.Subsystems.VisionSubsystem;
+import frc.robot.Utils.NetworkTableManager;
+import frc.robot.Utils.ElasticAlerts.ControllerAlerts;
 import frc.robot.Subsystems.AlgaeSubsystem;
 
 public class RobotContainer {
@@ -32,7 +35,7 @@ public class RobotContainer {
   private final VisionSubsystem m_robotVision = new VisionSubsystem();
 
   private final CommandXboxController m_driveController = new CommandXboxController(0);
-  private final CommandXboxController m_subsystemsController = new CommandXboxController(1);
+  private final CommandXboxController m_subsystemController = new CommandXboxController(1);
 
   private PowerDistribution m_PDH = new PowerDistribution(1, ModuleType.kRev);
 
@@ -40,13 +43,32 @@ public class RobotContainer {
 
   public RobotContainer() {
 
+    configureNotifications();
+
     configureBindings();
 
     configureDefaultCommands();
   }
 
   public void periodic() {
-    
+    NetworkTableManager.getInstance().putBoolean("OI/DriveControllerConnected", m_driveController.isConnected());
+    NetworkTableManager.getInstance().putBoolean("OI/SubsystemControllerConnected", m_subsystemController.isConnected());
+  }
+
+  private void configureNotifications() {
+    new Trigger(m_driveController::isConnected)
+      .onTrue(new InstantCommand(
+        () -> ControllerAlerts.DriveController.driveControllerConnectedAlert()))
+      .onFalse(new InstantCommand(
+        () -> ControllerAlerts.DriveController.driveControllerDisconnectedAlert()));
+
+  new Trigger(m_subsystemController::isConnected)
+    .onTrue(new InstantCommand(
+      () -> ControllerAlerts.SubsystemController.subsystemControllerConnectAlert()))
+    .onFalse(new InstantCommand(
+      () -> ControllerAlerts.SubsystemController.subsystemControllerDisconnectAlert()));
+
+      ControllerAlerts.DriveController.driveControllerConnectedAlert();
   }
 
   private void configureBindings() {
@@ -72,15 +94,15 @@ public class RobotContainer {
         m_robotDrive));
 
     m_robotAlgaeSubsystem.setDefaultCommand(
-      new AlgaeSubsystemDefault(m_robotAlgaeSubsystem, m_subsystemsController)
+      new AlgaeSubsystemDefault(m_robotAlgaeSubsystem, m_subsystemController)
     );
 
     m_robotCoralIntakeSubsystem.setDefaultCommand(
-      new CoralIntakeSubsystemDefault(m_robotCoralIntakeSubsystem, m_subsystemsController)
+      new CoralIntakeSubsystemDefault(m_robotCoralIntakeSubsystem, m_subsystemController)
     );
 
     m_robotElevatorSubsystem.setDefaultCommand(
-      new ElevatorSubsystemDefault(m_robotElevatorSubsystem, m_subsystemsController)
+      new ElevatorSubsystemDefault(m_robotElevatorSubsystem, m_subsystemController)
     );
   }
 

@@ -104,9 +104,9 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.getPosition()
       });
 
-      boolWidget.getEntry().setBoolean(m_gyro.isConnected());
+    boolWidget.getEntry().setBoolean(m_gyro.isConnected());
 
-          // Get NetworkTable instance and table reference
+    // Get NetworkTable instance and table reference
     NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
     NetworkTable table = ntInstance.getTable("SwerveDrive");
 

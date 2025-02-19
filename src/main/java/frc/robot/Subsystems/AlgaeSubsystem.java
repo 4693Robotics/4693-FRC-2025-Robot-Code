@@ -17,7 +17,7 @@ public class AlgaeSubsystem extends SubsystemBase {
     private final SparkMax m_algaeArm = new SparkMax(10, MotorType.kBrushless);
     private final SparkMax m_algaeIntake = new SparkMax(11, MotorType.kBrushless);
 
-    private final SparkClosedLoopController m_algaeArmClosedLoop = m_algaeArm.getClosedLoopController();
+   // private final SparkClosedLoopController m_algaeArmClosedLoop = m_algaeArm.getClosedLoopController();
 
     private double armSetpoint = 0;
 
@@ -34,12 +34,12 @@ public class AlgaeSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        m_algaeArmClosedLoop.setReference(armSetpoint, ControlType.kPosition);
+       // m_algaeArmClosedLoop.setReference(armSetpoint, ControlType.kPosition);
 
         NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
         NetworkTable table = ntInstance.getTable("AlgaeSubsystem");
 
-        table.getEntry("Arm Setpoint").setDouble(m_algaeArm.getAlternateEncoder().getPosition());
+        table.getEntry("Arm Setpoint").setDouble(m_algaeArm.getEncoder().getPosition());
     }
 
     public void setAlgaeArmSpeed(double speed) {

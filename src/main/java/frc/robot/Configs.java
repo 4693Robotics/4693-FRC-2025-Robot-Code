@@ -1,9 +1,11 @@
 package frc.robot;
 
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.Constants.ModuleConstants;
 
 public final class Configs {
@@ -66,17 +68,16 @@ public final class Configs {
                         .smartCurrentLimit(50)
                         .inverted(false);
                 
-                algaeArmConfig.alternateEncoder
+                /*algaeArmConfig.alternateEncoder
                         .countsPerRevolution(1);
                 algaeArmConfig.closedLoop
-                        .feedbackSensor(FeedbackSensor.kAlternateOrExternalEncoder)
+                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
                         .pid(
                                 Constants.AlgaeSubsystem.kAlgaeArmP,
                                 Constants.AlgaeSubsystem.kAlgaeArmI,
                                 Constants.AlgaeSubsystem.kAlgaeArmD)
                         .outputRange(-0.2, 0.2);
-
-                
+                        */
                 algaeIntakeConfig
                         .idleMode(IdleMode.kBrake)
                         .smartCurrentLimit(20);
@@ -89,7 +90,18 @@ public final class Configs {
                 static {
                         nuckleMotorConfig
                                 .idleMode(IdleMode.kBrake)
-                                .smartCurrentLimit(20);
+                                .smartCurrentLimit(20)
+                                .inverted(true);
+                        
+                        nuckleMotorConfig.absoluteEncoder
+                                .positionConversionFactor(1000)
+                                .inverted(true);
+
+                        nuckleMotorConfig.closedLoop
+                                .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+                                .pid(0.2, 0, 0)
+                                .outputRange( 0, 0.3)
+                                .positionWrappingEnabled(true);
                 }
         }
 

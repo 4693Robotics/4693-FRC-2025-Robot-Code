@@ -8,23 +8,29 @@ public class AlgaeSubsystemDefault extends Command {
     
     private AlgaeSubsystem algaeSubsystem;
 
-    private GenericHID controller;
+    private GenericHID subsystemController;
 
-    public AlgaeSubsystemDefault(AlgaeSubsystem algaeSubsystem, GenericHID controller) {
+    public AlgaeSubsystemDefault(AlgaeSubsystem algaeSubsystem, GenericHID subsystemController) {
 
         this.algaeSubsystem = algaeSubsystem;
 
-        this.controller = controller;
+        this.subsystemController = subsystemController;
 
         addRequirements(algaeSubsystem);
     }
 
     @Override
     public void execute() {
-        if (controller.getRawButton(6)) {
-            algaeSubsystem.setAlgaeIntakeSpeed(controller.getRawAxis(3));
+        if (subsystemController.getRawButton(6)) {
+            algaeSubsystem.setAlgaeIntakeSpeed(subsystemController.getRawAxis(3));
         } else {
-            algaeSubsystem.setAlgaeIntakeSpeed(-controller.getRawAxis(3));
+            algaeSubsystem.setAlgaeIntakeSpeed(-subsystemController.getRawAxis(3));
+        }
+
+        if (subsystemController.getRawButton(5)) {
+            algaeSubsystem.setAlgaeArmSpeed(-subsystemController.getRawAxis(2));
+        } else {
+            algaeSubsystem.setAlgaeArmSpeed(subsystemController.getRawAxis(2));
         }
     }
 

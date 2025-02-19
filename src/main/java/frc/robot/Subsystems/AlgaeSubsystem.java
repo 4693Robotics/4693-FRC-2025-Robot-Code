@@ -1,25 +1,24 @@
 package frc.robot.Subsystems;
 
-import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
+import frc.robot.Constants.AlgaeSubsystemConstants;
+import frc.robot.Utils.NetworkTableManager;
 
 public class AlgaeSubsystem extends SubsystemBase {
 
-    private final SparkMax m_algaeArm = new SparkMax(10, MotorType.kBrushless);
-    private final SparkMax m_algaeIntake = new SparkMax(11, MotorType.kBrushless);
+    private final SparkMax m_algaeArm = new SparkMax(
+        AlgaeSubsystemConstants.kAlgaeArmCanId,
+        MotorType.kBrushless);
 
-   // private final SparkClosedLoopController m_algaeArmClosedLoop = m_algaeArm.getClosedLoopController();
-
-    private double armSetpoint = 0;
+    private final SparkMax m_algaeIntake = new SparkMax(
+        AlgaeSubsystemConstants.kAlgaeIntakeCanId,
+        MotorType.kBrushless);
 
     public AlgaeSubsystem() {
         m_algaeArm.configure(
@@ -34,13 +33,10 @@ public class AlgaeSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-       // m_algaeArmClosedLoop.setReference(armSetpoint, ControlType.kPosition);
-
-        NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
-        NetworkTable table = ntInstance.getTable("AlgaeSubsystem");
-
-        table.getEntry("Arm Setpoint").setDouble(m_algaeArm.getEncoder().getPosition());
-    }
+        NetworkTableManager.getInstance().putNumber("AlgaeSubsystem/ArmSpeed" , m_algaeArm.get());
+        NetworkTableManager.getInstance().putNumber("AlgaeSubsystem/ArmEncoder", m_algaeArm.getEncoder().getPosition());
+        NetworkTableManager.getInstance().putNumber("AlgaeSubsystem/IntakeSpeed", m_algaeIntake.get());
+    } 
 
     public void setAlgaeArmSpeed(double speed) {
         m_algaeArm.set(speed * 0.2);

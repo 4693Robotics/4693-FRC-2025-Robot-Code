@@ -6,17 +6,14 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.AlgaeSubsystemDefault;
 import frc.robot.Commands.CoralIntakeSubsystemDefault;
 import frc.robot.Commands.ElevatorSubsystemDefault;
@@ -25,6 +22,8 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Subsystems.DriveSubsystem;
 import frc.robot.Subsystems.ElevatorSubsystem;
 import frc.robot.Subsystems.VisionSubsystem;
+import frc.robot.Utils.NetworkTableManager;
+import frc.robot.Utils.ElasticAlerts.ControllerAlerts;
 import frc.robot.Subsystems.AlgaeSubsystem;
 
 public class RobotContainer {
@@ -35,8 +34,8 @@ public class RobotContainer {
   private final ElevatorSubsystem m_robotElevatorSubsystem = new ElevatorSubsystem();
   private final VisionSubsystem m_robotVision = new VisionSubsystem();
 
-  private final XboxController m_driveController = new XboxController(0);
-  private final XboxController m_subsystemsController = new XboxController(1);
+  private final CommandXboxController m_driveController = new CommandXboxController(0);
+  private final CommandXboxController m_subsystemController = new CommandXboxController(1);
 
   private PowerDistribution m_PDH = new PowerDistribution(1, ModuleType.kRev);
 
@@ -44,49 +43,43 @@ public class RobotContainer {
 
   public RobotContainer() {
 
+    configureNotifications();
+
     configureBindings();
 
     configureDefaultCommands();
-
-    configureDashboard();
   }
 
   public void periodic() {
-    
+    NetworkTableManager.getInstance().putBoolean("OI/DriveControllerConnected", m_driveController.isConnected());
+    NetworkTableManager.getInstance().putBoolean("OI/SubsystemControllerConnected", m_subsystemController.isConnected());
+  }
+
+  private void configureNotifications() {
+    new Trigger(m_driveController::isConnected)
+      .onTrue(new InstantCommand(
+        () -> ControllerAlerts.DriveController.driveControllerConnectedAlert()))
+      .onFalse(new InstantCommand(
+        () -> ControllerAlerts.DriveController.driveControllerDisconnectedAlert()));
+
+  new Trigger(m_subsystemController::isConnected)
+    .onTrue(new InstantCommand(
+      () -> ControllerAlerts.SubsystemController.subsystemControllerConnectAlert()))
+    .onFalse(new InstantCommand(
+      () -> ControllerAlerts.SubsystemController.subsystemControllerDisconnectAlert()));
+
+      ControllerAlerts.DriveController.driveControllerConnectedAlert();
   }
 
   private void configureBindings() {
-    new JoystickButton(m_driveController, Button.kRightBumper.value)
-      .whileTrue(new RunCommand(
-        () -> m_robotDrive.setX(),
-         m_robotDrive));
 
-    new JoystickButton(m_driveController, Button.kLeftBumper.value)
-      .onTrue(new InstantCommand(
-        () -> m_robotDrive.zeroHeading(),
-        m_robotDrive));
-    
-    new JoystickButton(m_driveController, Button.kA.value)
-      .toggleOnTrue(new RunCommand(() -> m_robotDrive.drive(
-        -MathUtil.applyDeadband(m_driveController.getLeftY(), OIConstants.kDriveDeadband),
-        -MathUtil.applyDeadband(m_driveController.getLeftX(), OIConstants.kDriveDeadband),
-        -MathUtil.applyDeadband(m_driveController.getRightX(), OIConstants.kDriveDeadband),
-        false,
-        true),
-        m_robotDrive));
-  }
+    m_driveController.rightBumper().whileTrue(new RunCommand(
+      () -> m_robotDrive.setX(),
+      m_robotDrive));
 
-  private void configureDashboard() {
-    ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
-    ShuffleboardTab AutoTab = Shuffleboard.getTab("Auto");
-    ShuffleboardTab TeleopTab = Shuffleboard.getTab("Teleop");
-    ShuffleboardTab TestTab = Shuffleboard.getTab("Test");
-
-    PreGameTab.add("Auto Chooser", autoChooser);
-
-    PreGameTab.add("PDH", m_PDH);
-
-
+    m_driveController.leftBumper().onTrue(new InstantCommand(
+      () -> m_robotDrive.zeroHeading(),
+      m_robotDrive));
   }
 
   private void configureDefaultCommands() {
@@ -101,15 +94,15 @@ public class RobotContainer {
         m_robotDrive));
 
     m_robotAlgaeSubsystem.setDefaultCommand(
-      new AlgaeSubsystemDefault(m_robotAlgaeSubsystem, m_subsystemsController)
+      new AlgaeSubsystemDefault(m_robotAlgaeSubsystem, m_subsystemController)
     );
 
     m_robotCoralIntakeSubsystem.setDefaultCommand(
-      new CoralIntakeSubsystemDefault(m_robotCoralIntakeSubsystem, m_subsystemsController)
+      new CoralIntakeSubsystemDefault(m_robotCoralIntakeSubsystem, m_subsystemController)
     );
 
     m_robotElevatorSubsystem.setDefaultCommand(
-      new ElevatorSubsystemDefault(m_robotElevatorSubsystem, m_subsystemsController)
+      new ElevatorSubsystemDefault(m_robotElevatorSubsystem, m_subsystemController)
     );
   }
 

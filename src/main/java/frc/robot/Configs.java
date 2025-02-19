@@ -65,19 +65,8 @@ public final class Configs {
 
                 algaeArmConfig
                         .idleMode(IdleMode.kBrake)
-                        .smartCurrentLimit(50)
-                        .inverted(false);
+                        .smartCurrentLimit(50);
                 
-                /*algaeArmConfig.alternateEncoder
-                        .countsPerRevolution(1);
-                algaeArmConfig.closedLoop
-                        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                        .pid(
-                                Constants.AlgaeSubsystem.kAlgaeArmP,
-                                Constants.AlgaeSubsystem.kAlgaeArmI,
-                                Constants.AlgaeSubsystem.kAlgaeArmD)
-                        .outputRange(-0.2, 0.2);
-                        */
                 algaeIntakeConfig
                         .idleMode(IdleMode.kBrake)
                         .smartCurrentLimit(20);
@@ -85,23 +74,22 @@ public final class Configs {
         } 
 
         public static final class CoralIntakeSubsystem {
-                public static final SparkMaxConfig nuckleMotorConfig = new SparkMaxConfig();
+                public static final SparkMaxConfig nuckleConfig = new SparkMaxConfig();
+                public static final SparkMaxConfig intakeLeftConfig = new SparkMaxConfig();
+                public static final SparkMaxConfig intakeRightConfig = new SparkMaxConfig();
 
                 static {
-                        nuckleMotorConfig
+                        nuckleConfig
                                 .idleMode(IdleMode.kBrake)
-                                .smartCurrentLimit(20)
-                                .inverted(true);
+                                .smartCurrentLimit(20);
                         
-                        nuckleMotorConfig.absoluteEncoder
-                                .positionConversionFactor(1000)
-                                .inverted(true);
+                        intakeLeftConfig
+                                .idleMode(IdleMode.kBrake)
+                                .smartCurrentLimit(20);
 
-                        nuckleMotorConfig.closedLoop
-                                .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-                                .pid(0.2, 0, 0)
-                                .outputRange( 0, 0.3)
-                                .positionWrappingEnabled(true);
+                        intakeRightConfig
+                                .idleMode(IdleMode.kBrake)
+                                .smartCurrentLimit(20);
                 }
         }
 

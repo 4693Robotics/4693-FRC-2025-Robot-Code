@@ -1,19 +1,16 @@
 package frc.robot.Commands;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.Utils.RobotUtils.JoystickUtils;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.Subsystems.CoralIntakeSubsystem;
 
 public class CoralIntakeSubsystemDefault extends Command {
     
     private CoralIntakeSubsystem coralIntakeSubsystem;
 
-    private GenericHID controller;
+    private CommandGenericHID controller;
 
-    private double controllerSetpoint;
-
-    public CoralIntakeSubsystemDefault(CoralIntakeSubsystem coralIntakeSubsystem, GenericHID controller) {
+    public CoralIntakeSubsystemDefault(CoralIntakeSubsystem coralIntakeSubsystem, CommandGenericHID controller) {
 
         this.coralIntakeSubsystem = coralIntakeSubsystem;
 

@@ -114,15 +114,15 @@ public final class Constants {
         public static final int kTurningMotorCurrentLimit = 20; // amps
     }
 
-    public static final class AlgaeSubsystem {
-
+    public static final class AlgaeSubsystemConstants {
         public static final int kAlgaeArmCanId = 10;
-        public static final int kAlgaeRightIntakeCanId = 11;
-        public static final int kAlgaeLeftIntakeCanId = 12;
+        public static final int kAlgaeIntakeCanId = 11;
+    }
 
-        public static final double kAlgaeArmP = 0.0003;
-        public static final double kAlgaeArmI = 0;
-        public static final double kAlgaeArmD = 0;
+    public static final class CoralIntakeSubsystemConstants {
+        public static final int kNuckleCanId = 20;
+        public static final int kIntakeLeft = 21;
+        public static final int kIntakeRight = 22;
     }
 
     public static final class NeoMotorConstants {

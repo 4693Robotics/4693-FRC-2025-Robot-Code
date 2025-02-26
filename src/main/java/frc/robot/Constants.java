@@ -25,7 +25,7 @@ public final class Constants {
     public static final class DriveConstants {
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
-        public static final double kMaxSpeedMetersPerSecond = 2.8;
+        public static final double kMaxSpeedMetersPerSecond = 4.8;
         public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
         public static final double kDirectionSlewRate = 2.0; // radians per second
@@ -123,6 +123,12 @@ public final class Constants {
         public static final int kNuckleCanId = 20;
         public static final int kIntakeLeft = 21;
         public static final int kIntakeRight = 22;
+    }
+
+    public static final class LimelightConstants {
+        // Used to control the driving speed of the robot based on the distance from the target
+        public static final double kP = 0.1;
+        
     }
 
     public static final class NeoMotorConstants {

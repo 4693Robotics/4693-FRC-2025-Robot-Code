@@ -87,6 +87,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    //Sends Notification if gyro connected state changes
+    new Trigger(m_gyro::isConnected)
+      .onTrue(new InstantCommand(() -> GyroAlerts.gyroConnectedAlert()))
+      .onFalse(new InstantCommand(() -> GyroAlerts.gyroDisconectedAlert()));
   }
 
   @Override
@@ -102,27 +106,22 @@ public class DriveSubsystem extends SubsystemBase {
       });
 
     //Updates the NetworkTable entries with the latest values from the modules  
-    NetworkTableManager.getInstance().putNumber("DriveSubsystem/SwerveDrive/Front Left Angle", m_frontLeft.getPosition().angle.getRadians());
-    NetworkTableManager.getInstance().putNumber("DriveSubsystem/SwerveDrive/Front Left Velocity", m_frontLeft.getState().speedMetersPerSecond);
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Front Left Angle", m_frontLeft.getPosition().angle.getRadians());
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Front Left Velocity", m_frontLeft.getState().speedMetersPerSecond);
 
-    NetworkTableManager.getInstance().putNumber("DriveSubsystem/SwerveDrive/Front Right Angle", m_frontRight.getPosition().angle.getRadians());
-    NetworkTableManager.getInstance().putNumber("DriveSubsystem/SwerveDrive/Front Right Velocity", m_frontRight.getState().speedMetersPerSecond);
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Front Right Angle", m_frontRight.getPosition().angle.getRadians());
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Front Right Velocity", m_frontRight.getState().speedMetersPerSecond);
 
-    NetworkTableManager.getInstance().putNumber("DriveSubsystem/SwerveDrive/Back Left Angle", m_rearLeft.getPosition().angle.getRadians());
-    NetworkTableManager.getInstance().putNumber("DriveSubsystem/SwerveDrive/Back Left Velocity", m_rearLeft.getState().speedMetersPerSecond);
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Back Left Angle", m_rearLeft.getPosition().angle.getRadians());
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Back Left Velocity", m_rearLeft.getState().speedMetersPerSecond);
 
-    NetworkTableManager.getInstance().putNumber("DriveSubsystem/SwerveDrive/Back Right Angle", m_rearRight.getPosition().angle.getRadians());
-    NetworkTableManager.getInstance().putNumber("DriveSubsystem/SwerveDrive/Back Right Velocity", m_rearRight.getState().speedMetersPerSecond);
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Back Right Angle", m_rearRight.getPosition().angle.getRadians());
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Back Right Velocity", m_rearRight.getState().speedMetersPerSecond);
 
-    NetworkTableManager.getInstance().putNumber("DriveSubsystem/SwerveDrive/Robot Angle", Units.degreesToRadians(m_gyro.getAngle()));
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Robot Angle", Units.degreesToRadians(m_gyro.getAngle()));
 
     //Adds gyro connection boolean
     NetworkTableManager.getInstance().putBoolean("DriveSubsystem/GyroConnection", m_gyro.isConnected());
-
-    //Sends Notification if gyro connected state changes
-    new Trigger(m_gyro::isConnected)
-      .onTrue(new InstantCommand(() -> GyroAlerts.gyroConnectedAlert()))
-      .onFalse(new InstantCommand(() -> GyroAlerts.gyroDisconectedAlert()));
   }
 
   /**

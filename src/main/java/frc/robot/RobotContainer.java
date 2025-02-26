@@ -6,7 +6,10 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -39,6 +42,8 @@ public class RobotContainer {
 
   private PowerDistribution m_PDH = new PowerDistribution(1, ModuleType.kRev);
 
+  private ComplexWidget PDHWidget = Shuffleboard.getTab("robot").add(m_PDH);
+
   private final SendableChooser<Command> autoChooser = new SendableChooser<>();
 
   public RobotContainer() {
@@ -53,6 +58,8 @@ public class RobotContainer {
   public void periodic() {
     NetworkTableManager.getInstance().putBoolean("OI/DriveControllerConnected", m_driveController.isConnected());
     NetworkTableManager.getInstance().putBoolean("OI/SubsystemControllerConnected", m_subsystemController.isConnected());
+
+    m_driveController.setRumble(RumbleType.kBothRumble, 0);
   }
 
   private void configureNotifications() {
@@ -67,8 +74,6 @@ public class RobotContainer {
       () -> ControllerAlerts.SubsystemController.subsystemControllerConnectAlert()))
     .onFalse(new InstantCommand(
       () -> ControllerAlerts.SubsystemController.subsystemControllerDisconnectAlert()));
-
-      ControllerAlerts.DriveController.driveControllerConnectedAlert();
   }
 
   private void configureBindings() {

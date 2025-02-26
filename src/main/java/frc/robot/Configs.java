@@ -1,11 +1,9 @@
 package frc.robot;
 
-import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import frc.robot.Constants.ModuleConstants;
 
 public final class Configs {
@@ -81,29 +79,44 @@ public final class Configs {
                 static {
                         nuckleConfig
                                 .idleMode(IdleMode.kBrake)
-                                .smartCurrentLimit(20);
+                                .smartCurrentLimit(20)
+                                .inverted(false);
+
+                        nuckleConfig.absoluteEncoder
+                                .positionConversionFactor(1000)
+                                .inverted(false);
+
+                        nuckleConfig.closedLoop
+                                .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+                                .pid(0.01, 0, 0)
+                                .outputRange(-0.3, 0.3)
+                                .positionWrappingEnabled(false);
                         
                         intakeLeftConfig
                                 .idleMode(IdleMode.kBrake)
-                                .smartCurrentLimit(20);
+                                .smartCurrentLimit(20).inverted(false);
 
                         intakeRightConfig
                                 .idleMode(IdleMode.kBrake)
-                                .smartCurrentLimit(20);
+                                .smartCurrentLimit(20).inverted(true);
                 }
         }
 
         public static final class ElevatorSubsystem {
-                public static final SparkMaxConfig elevatorMotorConfig = new SparkMaxConfig();
+                public static final SparkMaxConfig elevatorConfig = new SparkMaxConfig();
 
                 static {
-                        elevatorMotorConfig
+                        elevatorConfig
                                 .idleMode(IdleMode.kBrake)
                                 .smartCurrentLimit(50)
                                 .inverted(true);
+
+                        elevatorConfig.alternateEncoder
+                                .positionConversionFactor(100)
+                                .inverted(true);
                         
-                        elevatorMotorConfig.closedLoop
-                                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+                        elevatorConfig.closedLoop
+                                .feedbackSensor(FeedbackSensor.kAlternateOrExternalEncoder)
                                 .pid(0.1, 0, 0);
                 }
         }

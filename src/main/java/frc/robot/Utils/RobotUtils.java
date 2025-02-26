@@ -1,5 +1,8 @@
 package frc.robot.Utils;
 
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.LimelightConstants;
+
 public class RobotUtils {
 
     public class JoystickUtils {
@@ -26,6 +29,31 @@ public class RobotUtils {
                 newDouble = minOutput;
             }
             return newDouble;
+        }
+    }
+
+    public class limelightUtils {
+
+        public static double aimLimelightRot() {
+
+            double targetingAngularVelocity = LimelightHelpers.getTX("") * LimelightConstants.kP;
+            
+            targetingAngularVelocity *= DriveConstants.kMaxAngularSpeed;
+
+            targetingAngularVelocity *= -1;
+
+            return targetingAngularVelocity;
+        }
+
+        public static double aimLimelightDistance() {
+
+            double targetingForwardVelocity = LimelightHelpers.getTY("") * LimelightConstants.kP;
+
+            targetingForwardVelocity *= DriveConstants.kMaxSpeedMetersPerSecond;
+
+            targetingForwardVelocity *= -1;
+
+            return targetingForwardVelocity;
         }
     }
 }

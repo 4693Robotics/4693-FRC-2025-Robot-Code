@@ -2,6 +2,7 @@ package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Subsystems.ElevatorSubsystem;
 import frc.robot.Utils.NetworkTableManager;
 import frc.robot.Utils.RobotUtils.JoystickUtils;
@@ -13,6 +14,9 @@ public class ElevatorSubsystemDefault extends Command {
     private CommandGenericHID controller;
 
     private double controllerSetpoint;
+
+    private Trigger povUp;
+    private Trigger povDown;
 
     public ElevatorSubsystemDefault(ElevatorSubsystem elevatorSubsystem, CommandGenericHID controller) {
 
@@ -27,17 +31,18 @@ public class ElevatorSubsystemDefault extends Command {
 
     @Override
     public void initialize() {
-        
+        povUp = controller.povUp();
+        povDown = controller.povDown();
     }
 
     @Override
     public void execute() {
-        if (controller.povUp().getAsBoolean()) {
-            controllerSetpoint = JoystickUtils.joystickSlider( 10, controllerSetpoint, 337, 0);
+        if (povUp.getAsBoolean()) {
+            controllerSetpoint = JoystickUtils.joystickSlider( 40, controllerSetpoint, 1050, 0);
         }
 
-        if (controller.povDown().getAsBoolean()) {
-            controllerSetpoint = JoystickUtils.joystickSlider( -10, controllerSetpoint, 337, 0);
+        if (povDown.getAsBoolean()) {
+            controllerSetpoint = JoystickUtils.joystickSlider( -20, controllerSetpoint, 1050, 0);
         }
 
         NetworkTableManager.getInstance().putNumber("ElevatorSubsystem/ElevatorSetpoint", controllerSetpoint);

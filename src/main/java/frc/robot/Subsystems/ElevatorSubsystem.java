@@ -9,6 +9,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
+import frc.robot.Utils.NetworkTableManager;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
@@ -20,7 +21,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public ElevatorSubsystem() {
         m_Elevator.configure(
-            Configs.ElevatorSubsystem.elevatorMotorConfig,
+            Configs.ElevatorSubsystem.elevatorConfig,
             ResetMode.kResetSafeParameters,
             PersistMode.kPersistParameters);
     }
@@ -28,7 +29,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void periodic() {
         m_ElevatorClosedLoop.setReference(elevatorSetpoint, ControlType.kPosition);
 
-        
+        NetworkTableManager.getInstance().putNumber("ElevatorSubsystem/Encoder Value", m_Elevator.getAlternateEncoder().getPosition());
     } 
 
     public void setElevatorSetpoint(double setpoint) {

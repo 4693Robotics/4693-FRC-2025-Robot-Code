@@ -2,35 +2,42 @@ package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Subsystems.CoralIntakeSubsystem;
+import frc.robot.Utils.RobotUtils.JoystickUtils;
 
 public class CoralIntakeSubsystemDefault extends Command {
-    
-    private CoralIntakeSubsystem coralIntakeSubsystem;
 
-    private CommandGenericHID controller;
+    private final CoralIntakeSubsystem coralIntakeSubsystem;
+    private final CommandGenericHID controller;
+    private Trigger a;
+    private Trigger x;
+    private double controllerSetpoint;
 
     public CoralIntakeSubsystemDefault(CoralIntakeSubsystem coralIntakeSubsystem, CommandGenericHID controller) {
-
         this.coralIntakeSubsystem = coralIntakeSubsystem;
-
         this.controller = controller;
-
+        this.controllerSetpoint = 375;
         addRequirements(coralIntakeSubsystem);
-
-        controllerSetpoint = 0;
     }
 
     @Override
     public void initialize() {
-        
+        a = controller.button(1);
+        x = controller.button(4);
     }
 
     @Override
     public void execute() {
         coralIntakeSubsystem.setCoralIntakeSpeed(controller.getRawAxis(1));
 
-        controllerSetpoint = JoystickUtils.joystickSlider(-controller.getRawAxis(5) * 10, controllerSetpoint, 100, 0);
+        controllerSetpoint = x.getAsBoolean() 
+            ? JoystickUtils.joystickSlider(5, controllerSetpoint, 1000, 0)
+            : controllerSetpoint;
+
+        controllerSetpoint = a.getAsBoolean() 
+            ? JoystickUtils.joystickSlider(-5, controllerSetpoint, 1000, 0) 
+            : controllerSetpoint;
 
         coralIntakeSubsystem.setNucklePoint(controllerSetpoint);
     }
@@ -38,7 +45,6 @@ public class CoralIntakeSubsystemDefault extends Command {
     @Override
     public void end(boolean interrupted) {
         coralIntakeSubsystem.setCoralIntakeSpeed(0);
-
     }
 
     @Override
@@ -46,4 +52,3 @@ public class CoralIntakeSubsystemDefault extends Command {
         return false;
     }
 }
-

@@ -9,7 +9,7 @@
         "containers": [
           {
             "title": "Auto Chooser",
-            "x": 1664.0,
+            "x": 1536.0,
             "y": 0.0,
             "width": 256.0,
             "height": 128.0,
@@ -68,18 +68,6 @@
             }
           },
           {
-            "title": "PDH",
-            "x": 256.0,
-            "y": 0.0,
-            "width": 384.0,
-            "height": 512.0,
-            "type": "PowerDistribution",
-            "properties": {
-              "topic": "/Shuffleboard/Pre Game/PDH",
-              "period": 0.06
-            }
-          },
-          {
             "title": "Reset Gyro",
             "x": 640.0,
             "y": 384.0,
@@ -100,6 +88,40 @@
             "height": 256.0,
             "type": "SwerveDrive",
             "properties": {
+              "topic": "/Robot/DriveSubsystem/Swerve Drive",
+              "period": 0.06,
+              "show_robot_rotation": true,
+              "rotation_unit": "Radians"
+            }
+          },
+          {
+            "title": "PowerDistribution[0]",
+            "x": 256.0,
+            "y": 0.0,
+            "width": 384.0,
+            "height": 512.0,
+            "type": "PowerDistribution",
+            "properties": {
+              "topic": "/Shuffleboard/robot/PowerDistribution[0]",
+              "period": 0.06
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "Auto",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "Swerve Drive",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 384.0,
+            "height": 384.0,
+            "type": "SwerveDrive",
+            "properties": {
               "topic": "/SwerveDrive",
               "period": 0.06,
               "show_robot_rotation": true,
@@ -110,17 +132,56 @@
       }
     },
     {
-      "name": "Auto",
-      "grid_layout": {
-        "layouts": [],
-        "containers": []
-      }
-    },
-    {
       "name": "Teleop",
       "grid_layout": {
         "layouts": [],
-        "containers": []
+        "containers": [
+          {
+            "title": "Swerve Drive",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 256.0,
+            "type": "SwerveDrive",
+            "properties": {
+              "topic": "/SwerveDrive",
+              "period": 0.06,
+              "show_robot_rotation": true,
+              "rotation_unit": "Radians"
+            }
+          },
+          {
+            "title": "Arm Setpoint",
+            "x": 256.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/AlgaeSubsystem/Arm Setpoint",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "GyroConnection",
+            "x": 768.0,
+            "y": 256.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Boolean Box",
+            "properties": {
+              "topic": "/Robot/DriveSubsystem/GyroConnection",
+              "period": 0.06,
+              "data_type": "boolean",
+              "true_color": 4283215696,
+              "false_color": 4294198070,
+              "true_icon": "None",
+              "false_icon": "None"
+            }
+          }
+        ]
       }
     },
     {
@@ -143,6 +204,34 @@
               "false_color": 4294198070,
               "true_icon": "None",
               "false_icon": "None"
+            }
+          },
+          {
+            "title": "Arm Setpoint",
+            "x": 128.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/AlgaeSubsystem/Arm Setpoint",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Elevator Setpoint",
+            "x": 256.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/ElevatorSusbsytem/Elevator Setpoint",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
             }
           }
         ]

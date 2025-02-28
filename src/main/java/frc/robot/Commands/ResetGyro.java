@@ -3,10 +3,10 @@ package frc.robot.Commands;
 import com.studica.frc.AHRS;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.Utils.Elastic;
-import frc.Utils.Elastic.Notification.NotificationLevel;
+import frc.robot.Utils.Elastic;
+import frc.robot.Utils.Elastic.Notification.NotificationLevel;
 
-public class ResetGyro extends Command{
+public class ResetGyro extends Command {
 
     AHRS gyro;
 
@@ -24,8 +24,7 @@ public class ResetGyro extends Command{
     }
 
     @Override
-    public void end(boolean interrupted) {
-        
+    public boolean isFinished() {
+        return true;
     }
-    
 }

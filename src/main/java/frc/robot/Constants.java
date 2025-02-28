@@ -25,7 +25,7 @@ public final class Constants {
     public static final class DriveConstants {
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
-        public static final double kMaxSpeedMetersPerSecond = 4.8;
+        public static final double kMaxSpeedMetersPerSecond = 1.5;
         public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
         public static final double kDirectionSlewRate = 2.0; // radians per second
@@ -33,9 +33,9 @@ public final class Constants {
         public static final double kRotationalSlewRate = 2.0; // percent per second (1 = 100%)
 
         // Chassis configuration
-        public static final double kTrackWidth = Units.inchesToMeters(25.5);
+        public static final double kTrackWidth = Units.inchesToMeters(23.5);
         // Distance between centers of right and left wheels on robot
-        public static final double kWheelBase = Units.inchesToMeters(25.5);
+        public static final double kWheelBase = Units.inchesToMeters(23.5);
         // Distance between front and back wheels on robot
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -114,13 +114,21 @@ public final class Constants {
         public static final int kTurningMotorCurrentLimit = 20; // amps
     }
 
-    public static final class HangerConstants {
+    public static final class AlgaeSubsystemConstants {
+        public static final int kAlgaeArmCanId = 10;
+        public static final int kAlgaeIntakeCanId = 11;
+    }
 
-        public static final int kHangerSparkMaxCanId = 9;
+    public static final class CoralIntakeSubsystemConstants {
+        public static final int kNuckleCanId = 20;
+        public static final int kIntakeLeft = 21;
+        public static final int kIntakeRight = 22;
+    }
 
-        public static final IdleMode kHangerSparkMaxIdleMode = IdleMode.kBrake;
-
-        public static final int kHangerSparkMaxCurrentLimit = 50; // amps
+    public static final class LimelightConstants {
+        // Used to control the driving speed of the robot based on the distance from the target
+        public static final double kP = 0.1;
+        
     }
 
     public static final class NeoMotorConstants {

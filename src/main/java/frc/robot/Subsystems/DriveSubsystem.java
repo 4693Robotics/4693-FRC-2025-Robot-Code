@@ -12,23 +12,22 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
 import frc.robot.Commands.ResetGyro;
 import frc.robot.Constants.DriveConstants;
-import frc.Utils.Elastic;
-import frc.Utils.SwerveUtils;
-import frc.Utils.Elastic.Notification;
-import frc.Utils.Elastic.Notification.NotificationLevel;
-import frc.Utils.RobotUtils.BooleanStateChange;
+import frc.robot.Utils.NetworkTableManager;
+import frc.robot.Utils.SwerveUtils;
+import frc.robot.Utils.ElasticAlerts.GyroAlerts;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
@@ -76,28 +75,22 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.getPosition()
       });
 
-  private ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
+  ShuffleboardTab PreGameTab = Shuffleboard.getTab("Pre Game");
 
-  private SimpleWidget boolWidget = PreGameTab
-  .add("Gyro Connection", m_gyro.isConnected());
-
+  @SuppressWarnings("unused")
   private ComplexWidget gyroAngleWidget = PreGameTab
     .add("Gyro", m_gyro);
   
+  @SuppressWarnings("unused")
   private ComplexWidget gyroResetWidget = PreGameTab
     .add("Reset Gyro", new ResetGyro(m_gyro));
 
-  private BooleanStateChange gyroConnectionChange = new BooleanStateChange(
-    () -> Elastic.sendNotification(new Notification(
-      NotificationLevel.INFO,
-      "Gyro Connected", "The Gyro has been Connected")),
-    () -> Elastic.sendNotification(new Notification(
-      NotificationLevel.WARNING,
-      "Gyro Disconnect",
-      "The Gyro has been Disconnected")));
-
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    //Sends Notification if gyro connected state changes
+    new Trigger(m_gyro::isConnected)
+      .onTrue(new InstantCommand(() -> GyroAlerts.gyroConnectedAlert()))
+      .onFalse(new InstantCommand(() -> GyroAlerts.gyroDisconectedAlert()));
   }
 
   @Override
@@ -112,9 +105,23 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.getPosition()
       });
 
-      boolWidget.getEntry().setBoolean(m_gyro.isConnected());
+    //Updates the NetworkTable entries with the latest values from the modules  
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Front Left Angle", m_frontLeft.getPosition().angle.getRadians());
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Front Left Velocity", m_frontLeft.getState().speedMetersPerSecond);
 
-      gyroConnectionChange.checkStateChange(m_gyro.isConnected());
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Front Right Angle", m_frontRight.getPosition().angle.getRadians());
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Front Right Velocity", m_frontRight.getState().speedMetersPerSecond);
+
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Back Left Angle", m_rearLeft.getPosition().angle.getRadians());
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Back Left Velocity", m_rearLeft.getState().speedMetersPerSecond);
+
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Back Right Angle", m_rearRight.getPosition().angle.getRadians());
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Back Right Velocity", m_rearRight.getState().speedMetersPerSecond);
+
+    NetworkTableManager.getInstance().putNumber("DriveSubsystem/Swerve Drive/Robot Angle", Units.degreesToRadians(m_gyro.getAngle()));
+
+    //Adds gyro connection boolean
+    NetworkTableManager.getInstance().putBoolean("DriveSubsystem/GyroConnection", m_gyro.isConnected());
   }
 
   /**

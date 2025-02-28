@@ -31,7 +31,7 @@ public class AlgaeSubsystemDefault extends Command {
         double intakeSpeed = controller.getRawAxis(3);
         double armSpeed = controller.getRawAxis(2);
 
-        algaeSubsystem.setAlgaeIntakeSpeed(leftBumper.getAsBoolean() ? intakeSpeed : -intakeSpeed);
+        algaeSubsystem.setAlgaeIntakeSpeed(leftBumper.getAsBoolean() ? -intakeSpeed : intakeSpeed);
         algaeSubsystem.setAlgaeArmSpeed(rightBumper.getAsBoolean() ? -armSpeed : armSpeed);
     }
 

@@ -117,7 +117,8 @@ public final class Configs {
                         
                         elevatorConfig.closedLoop
                                 .feedbackSensor(FeedbackSensor.kAlternateOrExternalEncoder)
-                                .pid(0.1, 0, 0);
+                                .pid(0.005, 0, 0)
+                                .outputRange(-0.4, 1);
                 }
         }
     

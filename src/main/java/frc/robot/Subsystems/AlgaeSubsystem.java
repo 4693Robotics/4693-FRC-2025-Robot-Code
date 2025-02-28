@@ -27,7 +27,7 @@ public class AlgaeSubsystem extends SubsystemBase {
             PersistMode.kPersistParameters);
 
         m_algaeIntake.configure(
-            Configs.AlgaeSubsystem.algaeArmConfig, 
+            Configs.AlgaeSubsystem.algaeIntakeConfig, 
             ResetMode.kResetSafeParameters, 
             PersistMode.kPersistParameters);
     }

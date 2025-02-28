@@ -1,5 +1,7 @@
 package frc.robot.Subsystems;
 
+import com.revrobotics.Rev2mDistanceSensor;
+import com.revrobotics.Rev2mDistanceSensor.Port;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -14,19 +16,21 @@ import frc.robot.Utils.NetworkTableManager;
 
 public class CoralIntakeSubsystem extends SubsystemBase {
 
-    private SparkMax m_nuckle = new SparkMax(
+    private final SparkMax m_nuckle = new SparkMax(
         CoralIntakeSubsystemConstants.kNuckleCanId,
         MotorType.kBrushless);
-    private SparkMax m_intakeLeft = new SparkMax(
+    private final SparkMax m_intakeLeft = new SparkMax(
         CoralIntakeSubsystemConstants.kIntakeLeft,
         MotorType.kBrushless);
-    private SparkMax m_intakeRight = new SparkMax(
+    private final SparkMax m_intakeRight = new SparkMax(
         CoralIntakeSubsystemConstants.kIntakeRight,
         MotorType.kBrushless);
 
     private SparkClosedLoopController m_nuckleClosedLoopController = m_nuckle.getClosedLoopController();
 
-    private double nuckleSetpoint = 375;
+    private double nuckleSetpoint = 75;
+
+    private final Rev2mDistanceSensor m_DistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
 
     public CoralIntakeSubsystem() {
 
@@ -52,6 +56,7 @@ public class CoralIntakeSubsystem extends SubsystemBase {
 
         NetworkTableManager.getInstance().putNumber("CoralIntakeSubsystem/NuckleSetpoint", nuckleSetpoint);
         NetworkTableManager.getInstance().putNumber("CoralIntakeSubsystem/NuckleEncoder", m_nuckle.getAbsoluteEncoder().getPosition());
+        NetworkTableManager.getInstance().putNumber("CoralIntakeSubsystem/Distance Sensor", m_DistanceSensor.isRangeValid() ? m_DistanceSensor.getRange() : -1);
     }
     
     public void setNucklePoint(double setpoint) {
@@ -59,7 +64,11 @@ public class CoralIntakeSubsystem extends SubsystemBase {
     }
 
     public void setCoralIntakeSpeed(double speed) {
-        m_intakeLeft.set(speed*0.1);
-        m_intakeRight.set(speed*0.1);
+        m_intakeLeft.set(speed*0.2);
+        m_intakeRight.set(speed*0.2);
+    }
+
+    public void getRange() {
+        m_DistanceSensor.getRange();
     }
 }

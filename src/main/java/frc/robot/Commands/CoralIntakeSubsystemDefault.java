@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Subsystems.CoralIntakeSubsystem;
-import frc.robot.Utils.RobotUtils.JoystickUtils;
 
 public class CoralIntakeSubsystemDefault extends Command {
 
@@ -18,7 +17,7 @@ public class CoralIntakeSubsystemDefault extends Command {
     public CoralIntakeSubsystemDefault(CoralIntakeSubsystem coralIntakeSubsystem, CommandGenericHID controller) {
         this.coralIntakeSubsystem = coralIntakeSubsystem;
         this.controller = controller;
-        this.controllerSetpoint = 75;
+        this.controllerSetpoint = 45;
         addRequirements(coralIntakeSubsystem);
     }
 
@@ -27,8 +26,8 @@ public class CoralIntakeSubsystemDefault extends Command {
         //a = controller.button(1);
         //x = controller.button(4);
 
-        controller.button(1).toggleOnTrue(new InstantCommand(() -> controllerSetpoint = 375));
-        controller.button(1).toggleOnFalse(new InstantCommand(() -> controllerSetpoint = 75));
+        controller.button(1).toggleOnTrue(new InstantCommand(() -> controllerSetpoint = 350));
+        controller.button(1).toggleOnFalse(new InstantCommand(() -> controllerSetpoint = 45));
     }
 
     @Override
@@ -43,7 +42,7 @@ public class CoralIntakeSubsystemDefault extends Command {
         controllerSetpoint = a.getAsBoolean() 
             ? JoystickUtils.joystickSlider(-5, controllerSetpoint, 1000, 0) 
             : controllerSetpoint;
-*/
+        */
         coralIntakeSubsystem.setNucklePoint(controllerSetpoint);
     }
 

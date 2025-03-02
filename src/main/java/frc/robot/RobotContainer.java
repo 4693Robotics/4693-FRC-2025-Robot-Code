@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -16,12 +17,10 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -29,11 +28,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.AlgaeSubsystemDefault;
 import frc.robot.Commands.CoralIntakeSubsystemDefault;
 import frc.robot.Commands.ElevatorSubsystemDefault;
+import frc.robot.Commands.Auto.L1Auto;
 import frc.robot.Subsystems.CoralIntakeSubsystem;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Subsystems.DriveSubsystem;
 import frc.robot.Subsystems.ElevatorSubsystem;
-import frc.robot.Subsystems.VisionSubsystem;
 import frc.robot.Utils.NetworkTableManager;
 import frc.robot.Utils.ElasticAlerts.ControllerAlerts;
 import frc.robot.Subsystems.AlgaeSubsystem;
@@ -73,8 +72,6 @@ public class RobotContainer {
     public void periodic() {
       NetworkTableManager.getInstance().putBoolean("OI/DriveControllerConnected", m_driveController.isConnected());
       NetworkTableManager.getInstance().putBoolean("OI/SubsystemControllerConnected", m_subsystemController.isConnected());
-  
-      m_driveController.setRumble(RumbleType.kBothRumble, 0);
     }
   
     private void configureNotifications() {
@@ -106,9 +103,9 @@ public class RobotContainer {
        m_robotDrive.setDefaultCommand(
         new RunCommand(
           () -> m_robotDrive.drive(
-            -MathUtil.applyDeadband(m_driveController.getLeftY(), OIConstants.kDriveDeadband),
-            -MathUtil.applyDeadband(m_driveController.getLeftX(), OIConstants.kDriveDeadband),
-            -MathUtil.applyDeadband(m_driveController.getRightX(), OIConstants.kDriveDeadband),
+            (1 - (m_driveController.getRightTriggerAxis() * 0.5)) * -MathUtil.applyDeadband(m_driveController.getLeftY(), OIConstants.kDriveDeadband),
+            (1 - (m_driveController.getRightTriggerAxis() * 0.5)) * -MathUtil.applyDeadband(m_driveController.getLeftX(), OIConstants.kDriveDeadband),
+            (1 - (m_driveController.getRightTriggerAxis() * 0.5)) * -MathUtil.applyDeadband(m_driveController.getRightX(), OIConstants.kDriveDeadband),
             true,
             true),
           m_robotDrive));
@@ -153,6 +150,8 @@ public class RobotContainer {
           return false;
         },
         m_robotDrive);
+
+        NamedCommands.registerCommand("L1Auto", new L1Auto(m_robotCoralIntakeSubsystem));
   
         autoChooser = AutoBuilder.buildAutoChooser();
         Shuffleboard.getTab("robot").add(autoChooser);

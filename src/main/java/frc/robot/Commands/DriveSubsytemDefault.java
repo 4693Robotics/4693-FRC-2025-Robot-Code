@@ -7,8 +7,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Subsystems.DriveSubsystem;
-import frc.robot.Utils.NetworkTableManager;
-import frc.robot.Utils.RobotUtils.limelightUtils;
 
 public class DriveSubsytemDefault extends Command{
 
@@ -49,23 +47,12 @@ public class DriveSubsytemDefault extends Command{
 
     @Override
     public void execute() {
-        if (x.getAsBoolean()) {
-            driveSubsystem.drive(
-                limelightUtils.aimLimelightDistance(),
-                0,
-                limelightUtils.aimLimelightRot(),
-                false,
-                true);
-        } else {
             driveSubsystem.drive(
                 xSpeed.getAsDouble(),
                 ySpeed.getAsDouble(),
                 rot.getAsDouble(),
                 fieldRelative.getAsBoolean(),
                 true);
-        }
-
-    NetworkTableManager.getInstance().putBoolean("OI/XPressed", x.getAsBoolean());
     }
 
     @Override

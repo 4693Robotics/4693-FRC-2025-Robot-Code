@@ -1,7 +1,5 @@
 package frc.robot.Subsystems;
 
-import com.revrobotics.Rev2mDistanceSensor;
-import com.revrobotics.Rev2mDistanceSensor.Port;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -28,9 +26,7 @@ public class CoralIntakeSubsystem extends SubsystemBase {
 
     private SparkClosedLoopController m_nuckleClosedLoopController = m_nuckle.getClosedLoopController();
 
-    private double nuckleSetpoint = 75;
-
-    private final Rev2mDistanceSensor m_DistanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
+    private double nuckleSetpoint = 45;
 
     public CoralIntakeSubsystem() {
 
@@ -56,7 +52,6 @@ public class CoralIntakeSubsystem extends SubsystemBase {
 
         NetworkTableManager.getInstance().putNumber("CoralIntakeSubsystem/NuckleSetpoint", nuckleSetpoint);
         NetworkTableManager.getInstance().putNumber("CoralIntakeSubsystem/NuckleEncoder", m_nuckle.getAbsoluteEncoder().getPosition());
-        NetworkTableManager.getInstance().putNumber("CoralIntakeSubsystem/Distance Sensor", m_DistanceSensor.isRangeValid() ? m_DistanceSensor.getRange() : -1);
     }
     
     public void setNucklePoint(double setpoint) {
@@ -66,9 +61,5 @@ public class CoralIntakeSubsystem extends SubsystemBase {
     public void setCoralIntakeSpeed(double speed) {
         m_intakeLeft.set(speed*0.2);
         m_intakeRight.set(speed*0.2);
-    }
-
-    public void getRange() {
-        m_DistanceSensor.getRange();
     }
 }

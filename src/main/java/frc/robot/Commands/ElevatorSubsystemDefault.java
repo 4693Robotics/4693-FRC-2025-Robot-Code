@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Subsystems.ElevatorSubsystem;
 import frc.robot.Utils.NetworkTableManager;
-import frc.robot.Utils.RobotUtils.JoystickUtils;
 
 public class ElevatorSubsystemDefault extends Command {
 

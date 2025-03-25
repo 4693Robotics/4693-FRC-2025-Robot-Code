@@ -26,7 +26,7 @@ public class CoralIntakeSubsystem extends SubsystemBase {
 
     private SparkClosedLoopController m_nuckleClosedLoopController = m_nuckle.getClosedLoopController();
 
-    private double nuckleSetpoint = 45;
+    private double nuckleSetpoint = 245;
 
     public CoralIntakeSubsystem() {
 
@@ -59,7 +59,7 @@ public class CoralIntakeSubsystem extends SubsystemBase {
     }
 
     public void setCoralIntakeSpeed(double speed) {
-        m_intakeLeft.set(speed*0.2);
-        m_intakeRight.set(speed*0.2);
+        m_intakeLeft.set(speed*0.35);
+        m_intakeRight.set(speed*0.35);
     }
 }

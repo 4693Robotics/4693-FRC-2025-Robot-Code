@@ -15,7 +15,6 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -33,6 +32,7 @@ import frc.robot.Subsystems.CoralIntakeSubsystem;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Subsystems.DriveSubsystem;
 import frc.robot.Subsystems.ElevatorSubsystem;
+import frc.robot.Subsystems.HangerSubsystem;
 import frc.robot.Utils.NetworkTableManager;
 import frc.robot.Utils.ElasticAlerts.ControllerAlerts;
 import frc.robot.Subsystems.AlgaeSubsystem;
@@ -43,6 +43,7 @@ public class RobotContainer {
   private final AlgaeSubsystem m_robotAlgaeSubsystem = new AlgaeSubsystem();
   private final CoralIntakeSubsystem m_robotCoralIntakeSubsystem = new CoralIntakeSubsystem();
   private final ElevatorSubsystem m_robotElevatorSubsystem = new ElevatorSubsystem();
+  private final HangerSubsystem m_robotHangerSubsystem = new HangerSubsystem();
   //private final VisionSubsystem m_robotVision = new VisionSubsystem();
 
   private final CommandXboxController m_driveController = new CommandXboxController(0);

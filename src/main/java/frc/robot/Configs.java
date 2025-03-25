@@ -79,8 +79,8 @@ public final class Configs {
                 static {
                         nuckleConfig
                                 .idleMode(IdleMode.kBrake)
-                                .smartCurrentLimit(20)
-                                .inverted(false);
+                                .smartCurrentLimit(50)
+                                .inverted(true);
 
                         nuckleConfig.absoluteEncoder
                                 .positionConversionFactor(1000)
@@ -88,9 +88,9 @@ public final class Configs {
 
                         nuckleConfig.closedLoop
                                 .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-                                .pid(0.01, 0, 0)
-                                .outputRange(-0.3, 0.3)
-                                .positionWrappingEnabled(false);
+                                .pid(0.001, 0, 0)
+                                .outputRange(-0.65, 0.65)
+                                .positionWrappingEnabled(false); 
                         
                         intakeLeftConfig
                                 .idleMode(IdleMode.kBrake)
@@ -117,8 +117,18 @@ public final class Configs {
                         
                         elevatorConfig.closedLoop
                                 .feedbackSensor(FeedbackSensor.kAlternateOrExternalEncoder)
-                                .pid(0.005, 0, 0)
-                                .outputRange(-0.4, 1);
+                                .pid(0.01, 0, 0)
+                                .outputRange(-0.45, 0.45);
+                }
+        }
+
+        public static final class HangerSubsystem {
+                public static final SparkMaxConfig hangerConfig = new SparkMaxConfig();
+
+                static {
+                        hangerConfig
+                                .idleMode(IdleMode.kBrake)
+                                .smartCurrentLimit(50);
                 }
         }
     

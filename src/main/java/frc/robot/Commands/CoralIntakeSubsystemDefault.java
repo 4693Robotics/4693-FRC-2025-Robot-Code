@@ -67,16 +67,16 @@ public class CoralIntakeSubsystemDefault extends Command {
             controllerSetpoint = 185;
             break;
         case 1:
-            controllerSetpoint = 385;
+            controllerSetpoint = 355;
             break;
         case 2:
-            controllerSetpoint = 420;
-            break;
-        case 3:
             controllerSetpoint = 475;
             break;
+        case 3:
+            controllerSetpoint = 530;
+            break;
         case 4:
-            controllerSetpoint = 540;
+            controllerSetpoint = 580;
             break;
     }
     {

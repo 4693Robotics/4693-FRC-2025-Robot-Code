@@ -15,6 +15,12 @@
           "data": {
             "name": "L1Auto"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": null
+          }
         }
       ]
     }

@@ -88,8 +88,8 @@ public final class Configs {
 
                         nuckleConfig.closedLoop
                                 .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-                                .pid(0.001, 0, 0)
-                                .outputRange(-0.65, 0.65)
+                                .pid(0.003, 0, 0)
+                                .outputRange(-0.2, 0.65)
                                 .positionWrappingEnabled(false); 
                         
                         intakeLeftConfig
@@ -118,7 +118,8 @@ public final class Configs {
                         elevatorConfig.closedLoop
                                 .feedbackSensor(FeedbackSensor.kAlternateOrExternalEncoder)
                                 .pid(0.01, 0, 0)
-                                .outputRange(-0.45, 0.45);
+                                .outputRange(-0.2, 0.45)
+                                .positionWrappingEnabled(false);
                 }
         }
 

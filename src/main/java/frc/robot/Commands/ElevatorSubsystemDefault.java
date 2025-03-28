@@ -85,7 +85,7 @@ public class ElevatorSubsystemDefault extends Command {
                 controllerSetpoint = 465;
                 break;
             case 4:
-                controllerSetpoint = 800;
+                controllerSetpoint = 850;
                 break;
         }
 

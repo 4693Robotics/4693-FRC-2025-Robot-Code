@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.concurrent.ForkJoinPool.ManagedBlocker;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.config.PIDConstants;
@@ -33,6 +35,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Subsystems.DriveSubsystem;
 import frc.robot.Subsystems.ElevatorSubsystem;
 import frc.robot.Subsystems.HangerSubsystem;
+import frc.robot.Subsystems.ManipulatorSubsystem;
 import frc.robot.Utils.NetworkTableManager;
 import frc.robot.Utils.ElasticAlerts.ControllerAlerts;
 import frc.robot.Subsystems.AlgaeSubsystem;
@@ -44,6 +47,7 @@ public class RobotContainer {
   private final CoralIntakeSubsystem m_robotCoralIntakeSubsystem = new CoralIntakeSubsystem();
   private final ElevatorSubsystem m_robotElevatorSubsystem = new ElevatorSubsystem();
   private final HangerSubsystem m_robotHangerSubsystem = new HangerSubsystem();
+  //private final ManipulatorSubsystem m_manipulatorSubsystem = new ManipulatorSubsystem();
   //private final VisionSubsystem m_robotVision = new VisionSubsystem();
 
   private final CommandXboxController m_driveController = new CommandXboxController(0);

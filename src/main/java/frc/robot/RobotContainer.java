@@ -29,15 +29,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.AlgaeSubsystemDefault;
 import frc.robot.Commands.CoralIntakeSubsystemDefault;
 import frc.robot.Commands.ElevatorSubsystemDefault;
+import frc.robot.Commands.Auto.A1Auto;
 import frc.robot.Commands.Auto.L1Auto;
 import frc.robot.Subsystems.CoralIntakeSubsystem;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Subsystems.DriveSubsystem;
 import frc.robot.Subsystems.ElevatorSubsystem;
 import frc.robot.Subsystems.HangerSubsystem;
-import frc.robot.Subsystems.ManipulatorSubsystem;
 import frc.robot.Utils.NetworkTableManager;
 import frc.robot.Utils.ElasticAlerts.ControllerAlerts;
+import frc.robot.Subsystems.AlgaeManipSubsystem;
 import frc.robot.Subsystems.AlgaeSubsystem;
 
 public class RobotContainer {
@@ -47,7 +48,7 @@ public class RobotContainer {
   private final CoralIntakeSubsystem m_robotCoralIntakeSubsystem = new CoralIntakeSubsystem();
   private final ElevatorSubsystem m_robotElevatorSubsystem = new ElevatorSubsystem();
   private final HangerSubsystem m_robotHangerSubsystem = new HangerSubsystem();
-  //private final ManipulatorSubsystem m_manipulatorSubsystem = new ManipulatorSubsystem();
+  private final AlgaeManipSubsystem m_algaeManipSubsystem = new AlgaeManipSubsystem();
   //private final VisionSubsystem m_robotVision = new VisionSubsystem();
 
   private final CommandXboxController m_driveController = new CommandXboxController(0);
@@ -159,6 +160,7 @@ public class RobotContainer {
         m_robotDrive);
 
         NamedCommands.registerCommand("L1Auto", new L1Auto(m_robotCoralIntakeSubsystem));
+        NamedCommands.registerCommand("L2DoSomething", new A1Auto(m_algaeManipSubsystem));
   
         autoChooser = AutoBuilder.buildAutoChooser();
         Shuffleboard.getTab("robot").add(autoChooser);

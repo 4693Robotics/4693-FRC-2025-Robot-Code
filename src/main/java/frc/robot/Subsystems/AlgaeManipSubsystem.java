@@ -8,11 +8,13 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.Configs;
 import frc.robot.Constants.CoralIntakeSubsystemConstants;
 import frc.robot.Utils.NetworkTableManager;
+import frc.robot.Subsystems.CoralIntakeSubsystem;
 
-public class ManipulatorSubsystem extends SubsystemBase{
+public class AlgaeManipSubsystem extends SubsystemBase{
     
      private final SparkMax m_Elevator = new SparkMax(30, MotorType.kBrushless);
 
@@ -34,14 +36,14 @@ public class ManipulatorSubsystem extends SubsystemBase{
 
     private double nuckleSetpoint = 185;
 
-    public ManipulatorSubsystem() {
+    public AlgaeManipSubsystem() {
         
-    m_Elevator.configure(
+        m_Elevator.configure(
             Configs.ElevatorSubsystem.elevatorConfig,
             ResetMode.kResetSafeParameters,
             PersistMode.kPersistParameters);
 
-            m_nuckle.configure(
+        m_nuckle.configure(
             Configs.CoralIntakeSubsystem.nuckleConfig, 
             ResetMode.kResetSafeParameters, 
             PersistMode.kPersistParameters);
@@ -58,6 +60,7 @@ public class ManipulatorSubsystem extends SubsystemBase{
     }
 
     public void periodic() {
+
         m_ElevatorClosedLoop.setReference(elevatorSetpoint, ControlType.kPosition);
 
         NetworkTableManager.getInstance().putNumber("ElevatorSubsystem/Encoder Value", m_Elevator.getAlternateEncoder().getPosition());
@@ -79,5 +82,24 @@ public class ManipulatorSubsystem extends SubsystemBase{
     public void setCoralIntakeSpeed(double speed) {
         m_intakeLeft.set(speed*0.5);
         m_intakeRight.set(speed*0.5);
+    }
+
+    public void l1() {
+        elevatorSetpoint = 115;
+        nuckleSetpoint = 475;
+    }
+
+    public void l2() {
+        
+    }
+
+    public void l3()    {
+        elevatorSetpoint = 465;
+        nuckleSetpoint = 475;
+    }
+
+    public void l6() {
+        elevatorSetpoint = 850;
+        nuckleSetpoint = 580;
     }
 }

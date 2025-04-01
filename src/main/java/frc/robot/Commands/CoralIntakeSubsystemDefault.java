@@ -21,9 +21,6 @@ public class CoralIntakeSubsystemDefault extends Command {
 
     private CoralIntakeSubsystem nuckleSubsystem;;
 
-
-      
-
     public CoralIntakeSubsystemDefault(CoralIntakeSubsystem coralIntakeSubsystem, CommandGenericHID controller) {
         this.coralIntakeSubsystem = coralIntakeSubsystem;
         this.controller = controller;
@@ -46,7 +43,7 @@ public class CoralIntakeSubsystemDefault extends Command {
        /* controller.button(1).toggleOnTrue(new InstantCommand(() -> controllerSetpoint = 420));
        controller.button(1).toggleOnFalse(new InstantCommand(() -> controllerSetpoint = 175)); */
 
-       if (b.getAsBoolean() && elevatorStage < 4 && !bPressed) {
+    if (b.getAsBoolean() && elevatorStage < 4 && !bPressed) {
         bPressed = true;
         elevatorStage++;
     } else if (a.getAsBoolean() && elevatorStage > 0 && !aPressed) {
@@ -79,9 +76,8 @@ public class CoralIntakeSubsystemDefault extends Command {
             controllerSetpoint = 580;
             break;
     }
-    {
+    
         coralIntakeSubsystem.setCoralIntakeSpeed(controller.getRawAxis(1));
-
         
        /*  controllerSetpoint = x.getAsBoolean() 
             ? JoystickUtils.joystickSlider(5, controllerSetpoint, 1000, 0)
@@ -91,7 +87,7 @@ public class CoralIntakeSubsystemDefault extends Command {
             ? JoystickUtils.joystickSlider(-5, controllerSetpoint, 1000, 0) 
             : controllerSetpoint; */
         
-        coralIntakeSubsystem.setNucklePoint(controllerSetpoint);}
+        coralIntakeSubsystem.setNucklePoint(controllerSetpoint);
 }
 
     

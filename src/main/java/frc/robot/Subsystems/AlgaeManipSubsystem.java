@@ -8,11 +8,9 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.Configs;
 import frc.robot.Constants.CoralIntakeSubsystemConstants;
 import frc.robot.Utils.NetworkTableManager;
-import frc.robot.Subsystems.CoralIntakeSubsystem;
 
 public class AlgaeManipSubsystem extends SubsystemBase{
     
@@ -22,7 +20,7 @@ public class AlgaeManipSubsystem extends SubsystemBase{
 
     private double elevatorSetpoint = 0;
 
-     private final SparkMax m_nuckle = new SparkMax(
+     private final SparkMax m_arm = new SparkMax(
         CoralIntakeSubsystemConstants.kNuckleCanId,
         MotorType.kBrushless);
     private final SparkMax m_intakeLeft = new SparkMax(
@@ -32,7 +30,7 @@ public class AlgaeManipSubsystem extends SubsystemBase{
         CoralIntakeSubsystemConstants.kIntakeRight,
         MotorType.kBrushless);
 
-    private SparkClosedLoopController m_nuckleClosedLoopController = m_nuckle.getClosedLoopController();
+    private SparkClosedLoopController m_nuckleClosedLoopController = m_arm.getClosedLoopController();
 
     private double nuckleSetpoint = 185;
 
@@ -43,7 +41,7 @@ public class AlgaeManipSubsystem extends SubsystemBase{
             ResetMode.kResetSafeParameters,
             PersistMode.kPersistParameters);
 
-        m_nuckle.configure(
+        m_arm.configure(
             Configs.CoralIntakeSubsystem.nuckleConfig, 
             ResetMode.kResetSafeParameters, 
             PersistMode.kPersistParameters);
@@ -68,18 +66,18 @@ public class AlgaeManipSubsystem extends SubsystemBase{
         m_nuckleClosedLoopController.setReference(nuckleSetpoint, ControlType.kPosition);
 
         NetworkTableManager.getInstance().putNumber("CoralIntakeSubsystem/NuckleSetpoint", nuckleSetpoint);
-        NetworkTableManager.getInstance().putNumber("CoralIntakeSubsystem/NuckleEncoder", m_nuckle.getAbsoluteEncoder().getPosition());
+        NetworkTableManager.getInstance().putNumber("CoralIntakeSubsystem/NuckleEncoder", m_arm.getAbsoluteEncoder().getPosition());
     } 
 
     public void setElevatorSetpoint(double setpoint) {
         elevatorSetpoint = setpoint;
     }
 
-    public void setNucklePoint(double setpoint) {
+    public void setArmPoint(double setpoint) {
         nuckleSetpoint = setpoint;
     }
 
-    public void setCoralIntakeSpeed(double speed) {
+    public void setIntakeSpeed(double speed) {
         m_intakeLeft.set(speed*0.5);
         m_intakeRight.set(speed*0.5);
     }
@@ -98,8 +96,16 @@ public class AlgaeManipSubsystem extends SubsystemBase{
         nuckleSetpoint = 475;
     }
 
-    public void l6() {
+    public void l4() {
         elevatorSetpoint = 850;
         nuckleSetpoint = 580;
+    }
+
+    public void a1() {
+
+    }
+
+    public void a2() {
+        
     }
 }

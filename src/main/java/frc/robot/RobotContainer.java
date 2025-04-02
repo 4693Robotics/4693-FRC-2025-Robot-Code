@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import java.util.concurrent.ForkJoinPool.ManagedBlocker;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.config.PIDConstants;
@@ -27,14 +25,8 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.AlgaeSubsystemDefault;
-import frc.robot.Commands.CoralIntakeSubsystemDefault;
-import frc.robot.Commands.ElevatorSubsystemDefault;
-import frc.robot.Commands.Auto.A1Auto;
-import frc.robot.Commands.Auto.L1Auto;
-import frc.robot.Subsystems.CoralIntakeSubsystem;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Subsystems.DriveSubsystem;
-import frc.robot.Subsystems.ElevatorSubsystem;
 import frc.robot.Subsystems.HangerSubsystem;
 import frc.robot.Utils.NetworkTableManager;
 import frc.robot.Utils.ElasticAlerts.ControllerAlerts;
@@ -45,8 +37,6 @@ public class RobotContainer {
 
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final AlgaeSubsystem m_robotAlgaeSubsystem = new AlgaeSubsystem();
-  private final CoralIntakeSubsystem m_robotCoralIntakeSubsystem = new CoralIntakeSubsystem();
-  private final ElevatorSubsystem m_robotElevatorSubsystem = new ElevatorSubsystem();
   private final HangerSubsystem m_robotHangerSubsystem = new HangerSubsystem();
   private final AlgaeManipSubsystem m_algaeManipSubsystem = new AlgaeManipSubsystem();
   //private final VisionSubsystem m_robotVision = new VisionSubsystem();
@@ -121,13 +111,9 @@ public class RobotContainer {
       m_robotAlgaeSubsystem.setDefaultCommand(
         new AlgaeSubsystemDefault(m_robotAlgaeSubsystem, m_subsystemController)
       );
-  
-      m_robotCoralIntakeSubsystem.setDefaultCommand(
-        new CoralIntakeSubsystemDefault(m_robotCoralIntakeSubsystem, m_subsystemController)
-      );
-  
-      m_robotElevatorSubsystem.setDefaultCommand(
-        new ElevatorSubsystemDefault(m_robotElevatorSubsystem, m_subsystemController)
+
+      m_algaeManipSubsystem.setDefaultCommand(
+        new 
       );
     }
 
@@ -159,8 +145,13 @@ public class RobotContainer {
         },
         m_robotDrive);
 
-        NamedCommands.registerCommand("L1Auto", new L1Auto(m_robotCoralIntakeSubsystem));
-        NamedCommands.registerCommand("L2DoSomething", new A1Auto(m_algaeManipSubsystem));
+        NamedCommands.registerCommand("L1", new InstantCommand(() -> m_algaeManipSubsystem.l1(), m_algaeManipSubsystem));
+        NamedCommands.registerCommand("L2", new InstantCommand(() -> m_algaeManipSubsystem.l2(), m_algaeManipSubsystem));
+        NamedCommands.registerCommand("L3", new InstantCommand(() -> m_algaeManipSubsystem.l3(), m_algaeManipSubsystem));
+        NamedCommands.registerCommand("L4", new InstantCommand(() -> m_algaeManipSubsystem.l4(), m_algaeManipSubsystem));
+        NamedCommands.registerCommand("A1", new InstantCommand(() -> m_algaeManipSubsystem.a1(), m_algaeManipSubsystem));
+        NamedCommands.registerCommand("A2", new InstantCommand(() -> m_algaeManipSubsystem.a2(), m_algaeManipSubsystem));
+
   
         autoChooser = AutoBuilder.buildAutoChooser();
         Shuffleboard.getTab("robot").add(autoChooser);

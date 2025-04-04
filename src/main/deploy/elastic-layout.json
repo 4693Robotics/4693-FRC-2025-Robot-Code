@@ -8,19 +8,6 @@
         "layouts": [],
         "containers": [
           {
-            "title": "Auto Chooser",
-            "x": 1536.0,
-            "y": 0.0,
-            "width": 256.0,
-            "height": 128.0,
-            "type": "ComboBox Chooser",
-            "properties": {
-              "topic": "/Shuffleboard/Pre Game/Auto Chooser",
-              "period": 0.06,
-              "sort_options": false
-            }
-          },
-          {
             "title": "Gyro Connection",
             "x": 0.0,
             "y": 0.0,
@@ -105,6 +92,19 @@
               "show_robot_rotation": true,
               "rotation_unit": "Radians"
             }
+          },
+          {
+            "title": "SendableChooser[0]",
+            "x": 1408.0,
+            "y": 0.0,
+            "width": 256.0,
+            "height": 128.0,
+            "type": "ComboBox Chooser",
+            "properties": {
+              "topic": "/Shuffleboard/robot/SendableChooser[0]",
+              "period": 0.06,
+              "sort_options": false
+            }
           }
         ]
       }
@@ -151,16 +151,30 @@
             }
           },
           {
+            "title": "Arm Setpoint",
+            "x": 256.0,
+            "y": 0.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/AlgaeSubsystem/Arm Setpoint",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
             "title": "USB Camera 0",
             "x": 1024.0,
             "y": 0.0,
-            "width": 896.0,
-            "height": 768.0,
+            "width": 640.0,
+            "height": 640.0,
             "type": "Camera Stream",
             "properties": {
               "topic": "/CameraPublisher/USB Camera 0",
               "period": 0.06,
-              "rotation_turns": 2
+              "rotation_turns": 0
             }
           }
         ]
@@ -214,6 +228,82 @@
               "period": 0.06,
               "data_type": "double",
               "show_submit_button": false
+            }
+          },
+          {
+            "title": "NuckleEncoder",
+            "x": 512.0,
+            "y": 256.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Robot/CoralIntakeSubsystem/NuckleEncoder",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "NuckleSetpoint",
+            "x": 640.0,
+            "y": 256.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Robot/CoralIntakeSubsystem/NuckleSetpoint",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "ElevatorSetpoint",
+            "x": 512.0,
+            "y": 512.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Robot/ElevatorSubsystem/ElevatorSetpoint",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          },
+          {
+            "title": "Encoder Value",
+            "x": 640.0,
+            "y": 512.0,
+            "width": 128.0,
+            "height": 128.0,
+            "type": "Text Display",
+            "properties": {
+              "topic": "/Robot/ElevatorSubsystem/Encoder Value",
+              "period": 0.06,
+              "data_type": "double",
+              "show_submit_button": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "robot",
+      "grid_layout": {
+        "layouts": [],
+        "containers": [
+          {
+            "title": "PowerDistribution[0]",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 384.0,
+            "height": 512.0,
+            "type": "PowerDistribution",
+            "properties": {
+              "topic": "/Shuffleboard/robot/PowerDistribution[0]",
+              "period": 0.06
             }
           }
         ]

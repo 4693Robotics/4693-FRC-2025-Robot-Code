@@ -32,7 +32,7 @@ public class AlgaeManipSubsystem extends SubsystemBase{
 
     private SparkClosedLoopController m_nuckleClosedLoopController = m_arm.getClosedLoopController();
 
-    private double nuckleSetpoint = 185;
+    private double armSetpoint = 220;
 
     public AlgaeManipSubsystem() {
         
@@ -62,10 +62,11 @@ public class AlgaeManipSubsystem extends SubsystemBase{
         m_ElevatorClosedLoop.setReference(elevatorSetpoint, ControlType.kPosition);
 
         NetworkTableManager.getInstance().putNumber("ElevatorSubsystem/Encoder Value", m_Elevator.getAlternateEncoder().getPosition());
+        NetworkTableManager.getInstance().putNumber("Elvator setpoint", elevatorSetpoint);
 
-        m_nuckleClosedLoopController.setReference(nuckleSetpoint, ControlType.kPosition);
+        m_nuckleClosedLoopController.setReference(armSetpoint, ControlType.kPosition);
 
-        NetworkTableManager.getInstance().putNumber("CoralIntakeSubsystem/NuckleSetpoint", nuckleSetpoint);
+        NetworkTableManager.getInstance().putNumber("CoralIntakeSubsystem/NuckleSetpoint", armSetpoint);
         NetworkTableManager.getInstance().putNumber("CoralIntakeSubsystem/NuckleEncoder", m_arm.getAbsoluteEncoder().getPosition());
     } 
 
@@ -74,7 +75,7 @@ public class AlgaeManipSubsystem extends SubsystemBase{
     }
 
     public void setArmPoint(double setpoint) {
-        nuckleSetpoint = setpoint;
+        armSetpoint = setpoint;
     }
 
     public void setIntakeSpeed(double speed) {
@@ -82,30 +83,45 @@ public class AlgaeManipSubsystem extends SubsystemBase{
         m_intakeRight.set(speed*0.5);
     }
 
+    public void restingSpot() {
+        elevatorSetpoint = 0;
+        armSetpoint = 225;
+    }
+
     public void l1() {
-        elevatorSetpoint = 115;
-        nuckleSetpoint = 475;
+        elevatorSetpoint = 100;
+        armSetpoint = 550;
     }
 
     public void l2() {
-        
+        elevatorSetpoint = 390;
+        armSetpoint = 480;
     }
 
     public void l3()    {
-        elevatorSetpoint = 465;
-        nuckleSetpoint = 475;
+        elevatorSetpoint = 875;
+        armSetpoint = 500;
     }
 
-    public void l4() {
-        elevatorSetpoint = 850;
-        nuckleSetpoint = 580;
+    public void coralin() {
+        elevatorSetpoint = 40;
+        armSetpoint = 605;
     }
 
     public void a1() {
-
+        elevatorSetpoint = 105;
+        armSetpoint = 500;
     }
 
     public void a2() {
-        
+        elevatorSetpoint = 420;
+        armSetpoint = 500;
+    }
+    
+    public void b() {
+        elevatorSetpoint = 840;
+        armSetpoint = 640;
     }
 }
+
+

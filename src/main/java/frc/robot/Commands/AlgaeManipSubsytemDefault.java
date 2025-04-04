@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Subsystems.AlgaeManipSubsystem;
-import frc.robot.Subsystems.AlgaeSubsystem;
 
 public class AlgaeManipSubsytemDefault extends Command {
 
@@ -13,23 +12,30 @@ public class AlgaeManipSubsytemDefault extends Command {
 
     private final CommandGenericHID controller;
 
-    private double elevatorSetpoint;
-    private double manipulatorSetpoint;
-
+    private final Trigger restingSpoTrigger;
     private final Trigger l1Trigger;
-    
+    private final Trigger l2Trigger;
+    private final Trigger l3Trigger;
+    private final Trigger coralinTrigger;
+    private final Trigger a1Trigger;
+    private final Trigger a2Trigger;
+    private final Trigger bTrigger;
+
     public AlgaeManipSubsytemDefault(AlgaeManipSubsystem algaeManipSubsystem, CommandGenericHID controller) {
 
         this.algaeManipSubsystem = algaeManipSubsystem;
 
         this.controller = controller;
 
-        elevatorSetpoint = 0;
-        manipulatorSetpoint = 185;
+        restingSpoTrigger = new Trigger(controller.button(1)).onTrue(new InstantCommand(() -> algaeManipSubsystem.restingSpot(), algaeManipSubsystem));
+        l1Trigger = new Trigger(controller.povLeft()).onTrue(new InstantCommand(() -> algaeManipSubsystem.l1(), algaeManipSubsystem));
+        l2Trigger = new Trigger(controller.povUp()).onTrue(new InstantCommand(() -> algaeManipSubsystem.l2(), algaeManipSubsystem));
+        l3Trigger = new Trigger(controller.povRight()).onTrue(new InstantCommand(() -> algaeManipSubsystem.l3(), algaeManipSubsystem));
+        coralinTrigger = new Trigger(controller.povDown()).onTrue(new InstantCommand(() -> algaeManipSubsystem.coralin(), algaeManipSubsystem));
+        a1Trigger = new Trigger(controller.button(3)).onTrue(new InstantCommand(() -> algaeManipSubsystem.a1(), algaeManipSubsystem));
+        a2Trigger = new Trigger(controller.button(4)).onTrue(new InstantCommand(() -> algaeManipSubsystem.a2(), algaeManipSubsystem));
+        bTrigger = new Trigger(controller.button(2)).onTrue(new InstantCommand(() -> algaeManipSubsystem.b(), algaeManipSubsystem));
 
-        //Links A button with l1 function
-        l1Trigger = new Trigger(controller.button(1)).onTrue(new InstantCommand(() -> algaeManipSubsystem.l1(), algaeManipSubsystem));
-    
         addRequirements(algaeManipSubsystem);
     }
 

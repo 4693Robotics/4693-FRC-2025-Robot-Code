@@ -39,7 +39,7 @@ public class AlgaeSubsystem extends SubsystemBase {
     } 
 
     public void setAlgaeArmSpeed(double speed) {
-        m_algaeArm.set(speed * 0.2);
+        m_algaeArm.set(speed * 0.3);
     }
 
     public void setAlgaeIntakeSpeed(double speed) {

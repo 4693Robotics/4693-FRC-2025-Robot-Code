@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -24,7 +25,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Commands.AlgaeManipSubsytemDefault;
 import frc.robot.Commands.AlgaeSubsystemDefault;
+import frc.robot.Commands.DriveSubsytemDefault;
+import frc.robot.Commands.Auto.FloorIntakeOut;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Subsystems.DriveSubsystem;
 import frc.robot.Subsystems.HangerSubsystem;
@@ -96,7 +100,7 @@ public class RobotContainer {
     }
   
     private void configureDefaultCommands() {
-       m_robotDrive.setDefaultCommand(
+       /*m_robotDrive.setDefaultCommand(
         new RunCommand(
           () -> m_robotDrive.drive(
             (1 - (m_driveController.getRightTriggerAxis() * 0.5)) * -MathUtil.applyDeadband(m_driveController.getLeftY(), OIConstants.kDriveDeadband),
@@ -104,16 +108,18 @@ public class RobotContainer {
             (1 - (m_driveController.getRightTriggerAxis() * 0.5)) * -MathUtil.applyDeadband(m_driveController.getRightX(), OIConstants.kDriveDeadband),
             /*m_driveController.button(1).toggleOnTrue(new Command() {
               
-            }).getAsBoolean()*/ true,
+            }).getAsBoolean() true,
             true),
-          m_robotDrive));
+          m_robotDrive));  */
+
+        m_robotDrive.setDefaultCommand(new DriveSubsytemDefault(m_robotDrive, m_driveController));
   
       m_robotAlgaeSubsystem.setDefaultCommand(
         new AlgaeSubsystemDefault(m_robotAlgaeSubsystem, m_subsystemController)
       );
 
       m_algaeManipSubsystem.setDefaultCommand(
-        new 
+        new AlgaeManipSubsytemDefault(m_algaeManipSubsystem, m_subsystemController)
       );
     }
 
@@ -145,12 +151,19 @@ public class RobotContainer {
         },
         m_robotDrive);
 
+        
+
         NamedCommands.registerCommand("L1", new InstantCommand(() -> m_algaeManipSubsystem.l1(), m_algaeManipSubsystem));
         NamedCommands.registerCommand("L2", new InstantCommand(() -> m_algaeManipSubsystem.l2(), m_algaeManipSubsystem));
         NamedCommands.registerCommand("L3", new InstantCommand(() -> m_algaeManipSubsystem.l3(), m_algaeManipSubsystem));
-        NamedCommands.registerCommand("L4", new InstantCommand(() -> m_algaeManipSubsystem.l4(), m_algaeManipSubsystem));
+        NamedCommands.registerCommand("coralin", new InstantCommand(() -> m_algaeManipSubsystem.coralin(), m_algaeManipSubsystem));
         NamedCommands.registerCommand("A1", new InstantCommand(() -> m_algaeManipSubsystem.a1(), m_algaeManipSubsystem));
         NamedCommands.registerCommand("A2", new InstantCommand(() -> m_algaeManipSubsystem.a2(), m_algaeManipSubsystem));
+        NamedCommands.registerCommand("Barge", new InstantCommand(() -> m_algaeManipSubsystem.b(), m_algaeManipSubsystem));
+        NamedCommands.registerCommand("Intake On", new InstantCommand(() -> m_algaeManipSubsystem.setIntakeSpeed(1), m_algaeManipSubsystem));
+        NamedCommands.registerCommand("Intake Out", new InstantCommand(() -> m_algaeManipSubsystem.setIntakeSpeed(-1), m_algaeManipSubsystem));
+        NamedCommands.registerCommand("Intake Stop", new InstantCommand(() -> m_algaeManipSubsystem.setIntakeSpeed(0), m_algaeManipSubsystem));
+        NamedCommands.registerCommand("Floor Intake Out", new FloorIntakeOut(m_robotAlgaeSubsystem));
 
   
         autoChooser = AutoBuilder.buildAutoChooser();

@@ -2,14 +2,14 @@ package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
-import frc.robot.Subsystems.AlgaeSubsystem;
+import frc.robot.Subsystems.Intake.IntakeSubystem;
 
 public class AlgaeSubsystemDefault extends Command {
 
-    private final AlgaeSubsystem algaeSubsystem;
+    private final IntakeSubystem algaeSubsystem;
     private final CommandGenericHID controller;
 
-    public AlgaeSubsystemDefault(AlgaeSubsystem algaeSubsystem, CommandGenericHID controller) {
+    public AlgaeSubsystemDefault(IntakeSubystem algaeSubsystem, CommandGenericHID controller) {
         this.algaeSubsystem = algaeSubsystem;
         this.controller = controller;
 

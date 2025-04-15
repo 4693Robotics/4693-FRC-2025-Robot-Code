@@ -25,24 +25,23 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.Commands.AlgaeManipSubsytemDefault;
+import frc.robot.Commands.ManipulatorCommand;
 import frc.robot.Commands.AlgaeSubsystemDefault;
 import frc.robot.Commands.DriveSubsytemDefault;
 import frc.robot.Commands.Auto.FloorIntakeOut;
 import frc.robot.Constants.OIConstants;
-import frc.robot.Subsystems.DriveSubsystem;
-import frc.robot.Subsystems.HangerSubsystem;
+import frc.robot.Subsystems.Drive.DriveSubsystem;
+import frc.robot.Subsystems.Intake.IntakeSubystem;
+import frc.robot.Subsystems.Manipulator.ManipulatorSubsystem;
+import frc.robot.Subsystems.Manipulator.ManipulatorSubsystem.ManipulatorPos;
 import frc.robot.Utils.NetworkTableManager;
 import frc.robot.Utils.ElasticAlerts.ControllerAlerts;
-import frc.robot.Subsystems.AlgaeManipSubsystem;
-import frc.robot.Subsystems.AlgaeSubsystem;
 
 public class RobotContainer {
 
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
-  private final AlgaeSubsystem m_robotAlgaeSubsystem = new AlgaeSubsystem();
-  private final HangerSubsystem m_robotHangerSubsystem = new HangerSubsystem();
-  private final AlgaeManipSubsystem m_algaeManipSubsystem = new AlgaeManipSubsystem();
+  private final IntakeSubystem m_robotAlgaeSubsystem = new IntakeSubystem();
+  private final ManipulatorSubsystem m_robotManipulator = new ManipulatorSubsystem();
   //private final VisionSubsystem m_robotVision = new VisionSubsystem();
 
   private final CommandXboxController m_driveController = new CommandXboxController(0);
@@ -118,8 +117,8 @@ public class RobotContainer {
         new AlgaeSubsystemDefault(m_robotAlgaeSubsystem, m_subsystemController)
       );
 
-      m_algaeManipSubsystem.setDefaultCommand(
-        new AlgaeManipSubsytemDefault(m_algaeManipSubsystem, m_subsystemController)
+      m_robotManipulator.setDefaultCommand(
+        new ManipulatorCommand(m_robotManipulator, m_subsystemController)
       );
     }
 
@@ -151,20 +150,17 @@ public class RobotContainer {
         },
         m_robotDrive);
 
-        
-
-        NamedCommands.registerCommand("L1", new InstantCommand(() -> m_algaeManipSubsystem.l1(), m_algaeManipSubsystem));
-        NamedCommands.registerCommand("L2", new InstantCommand(() -> m_algaeManipSubsystem.l2(), m_algaeManipSubsystem));
-        NamedCommands.registerCommand("L3", new InstantCommand(() -> m_algaeManipSubsystem.l3(), m_algaeManipSubsystem));
-        NamedCommands.registerCommand("coralin", new InstantCommand(() -> m_algaeManipSubsystem.coralin(), m_algaeManipSubsystem));
-        NamedCommands.registerCommand("A1", new InstantCommand(() -> m_algaeManipSubsystem.a1(), m_algaeManipSubsystem));
-        NamedCommands.registerCommand("A2", new InstantCommand(() -> m_algaeManipSubsystem.a2(), m_algaeManipSubsystem));
-        NamedCommands.registerCommand("Barge", new InstantCommand(() -> m_algaeManipSubsystem.b(), m_algaeManipSubsystem));
-        NamedCommands.registerCommand("Intake On", new InstantCommand(() -> m_algaeManipSubsystem.setIntakeSpeed(1), m_algaeManipSubsystem));
-        NamedCommands.registerCommand("Intake Out", new InstantCommand(() -> m_algaeManipSubsystem.setIntakeSpeed(-1), m_algaeManipSubsystem));
-        NamedCommands.registerCommand("Intake Stop", new InstantCommand(() -> m_algaeManipSubsystem.setIntakeSpeed(0), m_algaeManipSubsystem));
+        NamedCommands.registerCommand("L1", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.L1), m_robotManipulator));
+        NamedCommands.registerCommand("L2", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.L2), m_robotManipulator));
+        NamedCommands.registerCommand("L3", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.L3), m_robotManipulator));
+        NamedCommands.registerCommand("coralin", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.CORALIN), m_robotManipulator));
+        NamedCommands.registerCommand("A1", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.A1), m_robotManipulator));
+        NamedCommands.registerCommand("A2", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.A2), m_robotManipulator));
+        NamedCommands.registerCommand("Barge", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.BARGE), m_robotManipulator));
+        NamedCommands.registerCommand("Intake On", new InstantCommand(() -> m_robotManipulator.setIntakeSpeed(1), m_robotManipulator));
+        NamedCommands.registerCommand("Intake Out", new InstantCommand(() -> m_robotManipulator.setIntakeSpeed(-1), m_robotManipulator));
+        NamedCommands.registerCommand("Intake Stop", new InstantCommand(() -> m_robotManipulator.setIntakeSpeed(0), m_robotManipulator));
         NamedCommands.registerCommand("Floor Intake Out", new FloorIntakeOut(m_robotAlgaeSubsystem));
-
   
         autoChooser = AutoBuilder.buildAutoChooser();
         Shuffleboard.getTab("robot").add(autoChooser);

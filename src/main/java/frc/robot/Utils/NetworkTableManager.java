@@ -2,6 +2,8 @@ package frc.robot.Utils;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NetworkTableManager {
     private static NetworkTableManager instance;
@@ -28,6 +30,13 @@ public class NetworkTableManager {
 
     public void putString(String key, String value) {
         table.getEntry(key).setString(value);
+    }
+
+    /**
+     * Sendable will be in the SmartDashboard NetworkTable
+     */
+    public static void putSendable(Sendable value) {
+        SmartDashboard.putData(value);
     }
 }
 

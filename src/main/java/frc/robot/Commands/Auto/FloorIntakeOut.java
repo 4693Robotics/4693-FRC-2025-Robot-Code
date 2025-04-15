@@ -2,15 +2,15 @@ package frc.robot.Commands.Auto;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Subsystems.AlgaeSubsystem;
+import frc.robot.Subsystems.Intake.IntakeSubystem;
 
 public class FloorIntakeOut extends Command {
 
-    private final AlgaeSubsystem algaeSubsystem;
+    private final IntakeSubystem algaeSubsystem;
 
     private final Timer timer;
     
-    public FloorIntakeOut(AlgaeSubsystem algaeSubsystem) {
+    public FloorIntakeOut(IntakeSubystem algaeSubsystem) {
 
         this.algaeSubsystem = algaeSubsystem;
 

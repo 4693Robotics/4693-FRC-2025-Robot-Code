@@ -1,15 +1,11 @@
 package frc.robot.Commands;
 
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
-import frc.robot.Subsystems.DriveSubsystem;
+import frc.robot.Subsystems.Drive.DriveSubsystem;
 
 public class DriveSubsytemDefault extends Command{
 

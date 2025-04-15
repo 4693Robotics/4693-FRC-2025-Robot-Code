@@ -1,4 +1,4 @@
-package frc.robot.Subsystems;
+package frc.robot.Subsystems.Intake;
 
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -10,7 +10,7 @@ import frc.robot.Configs;
 import frc.robot.Constants.AlgaeSubsystemConstants;
 import frc.robot.Utils.NetworkTableManager;
 
-public class AlgaeSubsystem extends SubsystemBase {
+public class IntakeSubystem extends SubsystemBase {
 
     private final SparkMax m_algaeArm = new SparkMax(
         AlgaeSubsystemConstants.kAlgaeArmCanId,
@@ -20,7 +20,7 @@ public class AlgaeSubsystem extends SubsystemBase {
         AlgaeSubsystemConstants.kAlgaeIntakeCanId,
         MotorType.kBrushless);
 
-    public AlgaeSubsystem() {
+    public IntakeSubystem() {
         m_algaeArm.configure(
             Configs.AlgaeSubsystem.algaeArmConfig,
             ResetMode.kResetSafeParameters, 

@@ -30,12 +30,12 @@ public class ManipulatorCommand extends Command {
 
         RestTrigger = new Trigger(controller.button(1)).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.REST), manipulator));
         L1Trigger = new Trigger(controller.povLeft()).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.L1), manipulator));
-        L2Trigger = new Trigger(controller.povUp()).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.L1), manipulator));
-        L3Trigger = new Trigger(controller.povRight()).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.L1), manipulator));
-        CoralInTrigger = new Trigger(controller.povDown()).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.L1), manipulator));
-        A1Trigger = new Trigger(controller.button(3)).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.L1), manipulator));
-        A2Trigger = new Trigger(controller.button(4)).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.L1), manipulator));
-        BargeTrigger = new Trigger(controller.button(2)).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.L1), manipulator));
+        L2Trigger = new Trigger(controller.povUp()).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.L2), manipulator));
+        L3Trigger = new Trigger(controller.povRight()).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.L3), manipulator));
+        CoralInTrigger = new Trigger(controller.povDown()).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.CORALIN), manipulator));
+        A1Trigger = new Trigger(controller.button(3)).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.A1), manipulator));
+        A2Trigger = new Trigger(controller.button(4)).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.A2), manipulator));
+        BargeTrigger = new Trigger(controller.button(2)).onTrue(new InstantCommand(() -> manipulator.setPos(ManipulatorPos.BARGE), manipulator));
 
         addRequirements(manipulator);
     }

@@ -1,6 +1,7 @@
 package frc.robot.Subsystems.Manipulator;
 
 import com.revrobotics.spark.config.SparkMaxConfig;
+
 import static frc.robot.Subsystems.Manipulator.ManipulatorConstants.*;
 
 public final class ManipulatorConfigs {

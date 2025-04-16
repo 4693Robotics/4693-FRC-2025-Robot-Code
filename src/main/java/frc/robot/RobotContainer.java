@@ -6,36 +6,30 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
-import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.ManipulatorCommand;
 import frc.robot.Commands.AlgaeSubsystemDefault;
 import frc.robot.Commands.DriveSubsytemDefault;
 import frc.robot.Commands.Auto.FloorIntakeOut;
-import frc.robot.Constants.OIConstants;
+import frc.robot.ControlsManager.ControlProfile;
 import frc.robot.Subsystems.Drive.DriveSubsystem;
 import frc.robot.Subsystems.Intake.IntakeSubystem;
 import frc.robot.Subsystems.Manipulator.ManipulatorSubsystem;
 import frc.robot.Subsystems.Manipulator.ManipulatorSubsystem.ManipulatorPos;
 import frc.robot.Utils.NetworkTableManager;
-import frc.robot.Utils.ElasticAlerts.ControllerAlerts;
 
 public class RobotContainer {
 
@@ -52,39 +46,21 @@ public class RobotContainer {
   @SuppressWarnings("unused")
   private final UsbCamera m_camera = CameraServer.startAutomaticCapture();
 
-  @SuppressWarnings("unused")
-  private ComplexWidget PDHWidget = Shuffleboard.getTab("robot").add(m_PDH);
-
   private SendableChooser<Command> autoChooser;
+  private final SendableChooser<ControlProfile> profileChooser = new SendableChooser<>();
+  public RobotContainer() {
+    configureBindings();
   
-    public RobotContainer() {
+    configureDefaultCommands();
   
-      configureNotifications();
-  
-      configureBindings();
-  
-      configureDefaultCommands();
-  
-      configurePathPlanner();
-    }
+    configurePathPlanner();
+
+    configureNotifications();
+  }
   
     public void periodic() {
       NetworkTableManager.getInstance().putBoolean("OI/DriveControllerConnected", m_driveController.isConnected());
       NetworkTableManager.getInstance().putBoolean("OI/SubsystemControllerConnected", m_subsystemController.isConnected());
-    }
-  
-    private void configureNotifications() {
-      new Trigger(m_driveController::isConnected)
-        .onTrue(new InstantCommand(
-          () -> ControllerAlerts.DriveController.driveControllerConnectedAlert()))
-        .onFalse(new InstantCommand(
-          () -> ControllerAlerts.DriveController.driveControllerDisconnectedAlert()));
-  
-    new Trigger(m_subsystemController::isConnected)
-      .onTrue(new InstantCommand(
-        () -> ControllerAlerts.SubsystemController.subsystemControllerConnectAlert()))
-      .onFalse(new InstantCommand(
-        () -> ControllerAlerts.SubsystemController.subsystemControllerDisconnectAlert()));
     }
   
     private void configureBindings() {
@@ -99,19 +75,8 @@ public class RobotContainer {
     }
   
     private void configureDefaultCommands() {
-       /*m_robotDrive.setDefaultCommand(
-        new RunCommand(
-          () -> m_robotDrive.drive(
-            (1 - (m_driveController.getRightTriggerAxis() * 0.5)) * -MathUtil.applyDeadband(m_driveController.getLeftY(), OIConstants.kDriveDeadband),
-            (1 - (m_driveController.getRightTriggerAxis() * 0.5)) * -MathUtil.applyDeadband(m_driveController.getLeftX(), OIConstants.kDriveDeadband),
-            (1 - (m_driveController.getRightTriggerAxis() * 0.5)) * -MathUtil.applyDeadband(m_driveController.getRightX(), OIConstants.kDriveDeadband),
-            /*m_driveController.button(1).toggleOnTrue(new Command() {
-              
-            }).getAsBoolean() true,
-            true),
-          m_robotDrive));  */
-
-        m_robotDrive.setDefaultCommand(new DriveSubsytemDefault(m_robotDrive, m_driveController));
+        
+      m_robotDrive.setDefaultCommand(new DriveSubsytemDefault(m_robotDrive, m_driveController));
   
       m_robotAlgaeSubsystem.setDefaultCommand(
         new AlgaeSubsystemDefault(m_robotAlgaeSubsystem, m_subsystemController)
@@ -163,7 +128,15 @@ public class RobotContainer {
         NamedCommands.registerCommand("Floor Intake Out", new FloorIntakeOut(m_robotAlgaeSubsystem));
   
         autoChooser = AutoBuilder.buildAutoChooser();
-        Shuffleboard.getTab("robot").add(autoChooser);
+  }
+
+  private void configureDashboard() {
+    NetworkTableManager.putSendable(autoChooser);
+    NetworkTableManager.putSendable(profileChooser);
+  }
+
+  private void configureNotifications() {
+    
   }
 
   public Command getAutonomousCommand() {

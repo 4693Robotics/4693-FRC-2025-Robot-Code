@@ -25,12 +25,12 @@ public class AlgaeSubsystemDefault extends Command {
         double intakeSpeed = controller.getRawAxis(3) + -controller.getRawAxis(2);
         double armSpeed = -controller.getRawAxis(5);
 
-        algaeSubsystem.setAlgaeIntakeSpeed(intakeSpeed);
-        algaeSubsystem.setAlgaeArmSpeed(armSpeed);
+        algaeSubsystem.setIntakeSpeed(intakeSpeed);
+        algaeSubsystem.setArmSpeed(armSpeed);
     }
 
     @Override
     public void end(boolean interrupted) {
-        algaeSubsystem.setAlgaeIntakeSpeed(0);
+        algaeSubsystem.setIntakeSpeed(0);
     }
 }

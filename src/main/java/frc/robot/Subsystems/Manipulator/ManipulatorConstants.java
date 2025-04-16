@@ -23,6 +23,16 @@ public final class ManipulatorConstants {
     public static final MotorType kIntakeRightMotorType = MotorType.kBrushless;
 
     /*
+     * Used to put motors into brake or coast mode.
+     * Brake mode allows the motor to maintain position even while not in use.
+     * Coast mode allows the motor to maintain momentum even while not in use.
+     */
+    public static final IdleMode kElevatorIdleMode = IdleMode.kBrake;
+    public static final IdleMode kArmIdleMode = IdleMode.kBrake;
+    public static final IdleMode kIntakeLeftIdleMode = IdleMode.kBrake;
+    public static final IdleMode kIntakeRightIdleMode = IdleMode.kBrake;
+
+    /*
      * Please don't change these unless changing the motor type.
      * If current limit is set too high for motor, motor may produce Magic Smoke.
      * Use 50 amps for NEO 1.1.
@@ -34,16 +44,6 @@ public final class ManipulatorConstants {
     public static final int kIntakeRightCurrentLimit = 20;
 
     /*
-     * Used to put motors into brake or coast mode.
-     * Brake mode allows the motor to maintain position even while not in use.
-     * Coast mode allows the motor to maintain momentum even while not in use.
-     */
-    public static final IdleMode kElevatorIdleMode = IdleMode.kBrake;
-    public static final IdleMode kArmIdleMode = IdleMode.kBrake;
-    public static final IdleMode kIntakeLeftIdleMode = IdleMode.kBrake;
-    public static final IdleMode kIntakeRightIdleMode = IdleMode.kBrake;
-
-    /*
      * Sets the corresponding motor to invert its direction.
      */
     public static final boolean kElevatorInverted = false;
@@ -51,6 +51,9 @@ public final class ManipulatorConstants {
     public static final boolean kIntakeLeftInverted = false;
     public static final boolean kIntakeRightInverted = true;
 
+    /*
+     * Conversion factors for corresponding motor's encoder
+     */
     public static final double kElevatorConversionFactor = 100;
     public static final double kArmConversionFactor = 1000;
 

@@ -22,9 +22,9 @@ import com.studica.frc.AHRS.NavXComType;
 
 import frc.robot.Commands.ResetGyro;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Notifications.GyroAlerts;
 import frc.robot.Utils.NetworkTableManager;
 import frc.robot.Utils.SwerveUtils;
-import frc.robot.Utils.ElasticAlerts.GyroAlerts;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;

@@ -7,7 +7,6 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Configs;
 import frc.robot.Utils.NetworkTableManager;
 
 public class ManipulatorSubsystem extends SubsystemBase{
@@ -70,22 +69,22 @@ public class ManipulatorSubsystem extends SubsystemBase{
     public ManipulatorSubsystem() {
         
         m_Elevator.configure(
-            Configs.ElevatorSubsystem.elevatorConfig,
+            ManipulatorConfigs.elevatorConfig,
             ResetMode.kResetSafeParameters,
             PersistMode.kPersistParameters);
 
         m_Arm.configure(
-            Configs.CoralIntakeSubsystem.nuckleConfig, 
+            ManipulatorConfigs.armConfig, 
             ResetMode.kResetSafeParameters, 
             PersistMode.kPersistParameters);
 
         m_IntakeLeft.configure(
-            Configs.CoralIntakeSubsystem.intakeLeftConfig,
+            ManipulatorConfigs.intakeLeftConfig,
             ResetMode.kResetSafeParameters,
             PersistMode.kPersistParameters);
 
         m_IntakeRight.configure(
-            Configs.CoralIntakeSubsystem.intakeRightConfig,
+            ManipulatorConfigs.intakeRightConfig,
             ResetMode.kResetSafeParameters,
             PersistMode.kPersistParameters);
     }

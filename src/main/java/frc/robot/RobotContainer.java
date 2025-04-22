@@ -24,7 +24,8 @@ import frc.robot.Commands.ManipulatorCommand;
 import frc.robot.Commands.AlgaeSubsystemDefault;
 import frc.robot.Commands.DriveSubsytemDefault;
 import frc.robot.Commands.Auto.FloorIntakeOut;
-import frc.robot.ControlsManager.ControlProfile;
+import frc.robot.Control.ControlsManager;
+import frc.robot.Control.ControlsManager.ControlProfile;
 import frc.robot.Subsystems.Drive.DriveSubsystem;
 import frc.robot.Subsystems.Intake.IntakeSubystem;
 import frc.robot.Subsystems.Manipulator.ManipulatorSubsystem;
@@ -46,8 +47,11 @@ public class RobotContainer {
   @SuppressWarnings("unused")
   private final UsbCamera m_camera = CameraServer.startAutomaticCapture();
 
+  private final ControlsManager controlManager = new ControlsManager(m_driveController, m_subsystemController);
+
   private SendableChooser<Command> autoChooser;
   private final SendableChooser<ControlProfile> profileChooser = new SendableChooser<>();
+
   public RobotContainer() {
     configureBindings();
   
@@ -56,55 +60,56 @@ public class RobotContainer {
     configurePathPlanner();
 
     configureNotifications();
+
+    configureDashboard();
   }
   
-    public void periodic() {
-      NetworkTableManager.getInstance().putBoolean("OI/DriveControllerConnected", m_driveController.isConnected());
-      NetworkTableManager.getInstance().putBoolean("OI/SubsystemControllerConnected", m_subsystemController.isConnected());
-    }
+  public void periodic() {
+    NetworkTableManager.getInstance().putBoolean("OI/DriveControllerConnected", m_driveController.isConnected());
+    NetworkTableManager.getInstance().putBoolean("OI/SubsystemControllerConnected", m_subsystemController.isConnected());
+  }
   
-    private void configureBindings() {
+  private void configureBindings() {
   
-      m_driveController.rightBumper().whileTrue(new RunCommand(
-        () -> m_robotDrive.setX(),
-        m_robotDrive));
+    m_driveController.rightBumper().whileTrue(new RunCommand(
+      () -> m_robotDrive.setX(),
+      m_robotDrive));
   
-      m_driveController.leftBumper().onTrue(new InstantCommand(
-        () -> m_robotDrive.zeroHeading(),
-        m_robotDrive));
-    }
+    m_driveController.leftBumper().onTrue(new InstantCommand(
+      () -> m_robotDrive.zeroHeading(),
+      m_robotDrive));
+  }
   
-    private void configureDefaultCommands() {
+  private void configureDefaultCommands() { 
         
-      m_robotDrive.setDefaultCommand(new DriveSubsytemDefault(m_robotDrive, m_driveController));
+    m_robotDrive.setDefaultCommand(new DriveSubsytemDefault(m_robotDrive, m_driveController));
   
-      m_robotAlgaeSubsystem.setDefaultCommand(
-        new AlgaeSubsystemDefault(m_robotAlgaeSubsystem, m_subsystemController)
-      );
+    m_robotAlgaeSubsystem.setDefaultCommand(
+      new AlgaeSubsystemDefault(m_robotAlgaeSubsystem, m_subsystemController)
+    );
 
-      m_robotManipulator.setDefaultCommand(
-        new ManipulatorCommand(m_robotManipulator, m_subsystemController)
-      );
+    m_robotManipulator.setDefaultCommand(
+      new ManipulatorCommand(m_robotManipulator, m_subsystemController)
+    );
+  }
+
+  RobotConfig robotConfig; 
+  public void configurePathPlanner() {
+
+    try {
+      robotConfig = RobotConfig.fromGUISettings();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
-    RobotConfig robotConfig;
-    
-  
-    public void configurePathPlanner() {
-      try {
-        robotConfig = RobotConfig.fromGUISettings();
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-
-      AutoBuilder.configure(
-        m_robotDrive::getPose,
-        m_robotDrive::resetOdometry,
-        m_robotDrive::getCurrentspeeds,
-        (speeds, feedforwards) -> m_robotDrive.setCurrentspeeds(speeds),
-        new PPHolonomicDriveController(
-          new PIDConstants(5.0), 
-          new PIDConstants(5.0)),
+    AutoBuilder.configure(
+      m_robotDrive::getPose,
+      m_robotDrive::resetOdometry,
+      m_robotDrive::getCurrentspeeds,
+      (speeds, feedforwards) -> m_robotDrive.setCurrentspeeds(speeds),
+      new PPHolonomicDriveController(
+        new PIDConstants(5.0), 
+        new PIDConstants(5.0)),
         robotConfig,
         () -> {
           var alliance = DriverStation.getAlliance();
@@ -115,23 +120,26 @@ public class RobotContainer {
         },
         m_robotDrive);
 
-        NamedCommands.registerCommand("L1", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.L1), m_robotManipulator));
-        NamedCommands.registerCommand("L2", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.L2), m_robotManipulator));
-        NamedCommands.registerCommand("L3", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.L3), m_robotManipulator));
-        NamedCommands.registerCommand("coralin", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.CORALIN), m_robotManipulator));
-        NamedCommands.registerCommand("A1", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.A1), m_robotManipulator));
-        NamedCommands.registerCommand("A2", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.A2), m_robotManipulator));
-        NamedCommands.registerCommand("Barge", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.BARGE), m_robotManipulator));
-        NamedCommands.registerCommand("Intake On", new InstantCommand(() -> m_robotManipulator.setIntakeSpeed(1), m_robotManipulator));
-        NamedCommands.registerCommand("Intake Out", new InstantCommand(() -> m_robotManipulator.setIntakeSpeed(-1), m_robotManipulator));
-        NamedCommands.registerCommand("Intake Stop", new InstantCommand(() -> m_robotManipulator.setIntakeSpeed(0), m_robotManipulator));
-        NamedCommands.registerCommand("Floor Intake Out", new FloorIntakeOut(m_robotAlgaeSubsystem));
-  
-        autoChooser = AutoBuilder.buildAutoChooser();
+    NamedCommands.registerCommand("L1", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.L1), m_robotManipulator));
+    NamedCommands.registerCommand("L2", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.L2), m_robotManipulator));
+    NamedCommands.registerCommand("L3", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.L3), m_robotManipulator));
+    NamedCommands.registerCommand("coralin", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.CORALIN), m_robotManipulator));
+    NamedCommands.registerCommand("A1", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.A1), m_robotManipulator));
+    NamedCommands.registerCommand("A2", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.A2), m_robotManipulator));
+    NamedCommands.registerCommand("Barge", new InstantCommand(() -> m_robotManipulator.setPos(ManipulatorPos.BARGE), m_robotManipulator));
+    NamedCommands.registerCommand("Intake On", new InstantCommand(() -> m_robotManipulator.setIntakeSpeed(1), m_robotManipulator));
+    NamedCommands.registerCommand("Intake Out", new InstantCommand(() -> m_robotManipulator.setIntakeSpeed(-1), m_robotManipulator));
+    NamedCommands.registerCommand("Intake Stop", new InstantCommand(() -> m_robotManipulator.setIntakeSpeed(0), m_robotManipulator));
+    NamedCommands.registerCommand("Floor Intake Out", new FloorIntakeOut(m_robotAlgaeSubsystem));
   }
 
   private void configureDashboard() {
+    autoChooser = AutoBuilder.buildAutoChooser();
     NetworkTableManager.putSendable(autoChooser);
+
+    for (ControlProfile profile : ControlProfile.values()) {
+      profileChooser.addOption(profile.toString(), profile);
+    }
     NetworkTableManager.putSendable(profileChooser);
   }
 

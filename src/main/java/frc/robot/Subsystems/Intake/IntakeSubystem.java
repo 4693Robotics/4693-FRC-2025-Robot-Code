@@ -4,7 +4,6 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Configs;
 import frc.robot.Utils.NetworkTableManager;
 
 public class IntakeSubystem extends SubsystemBase {
@@ -18,11 +17,11 @@ public class IntakeSubystem extends SubsystemBase {
 
     public IntakeSubystem() {
         m_algaeArm.configure(
-            Configs.AlgaeSubsystem.algaeArmConfig,
+            IntakeConfigs.armConfig,
             ResetMode.kResetSafeParameters, 
             PersistMode.kPersistParameters);
         m_algaeIntake.configure(
-            Configs.AlgaeSubsystem.algaeIntakeConfig, 
+            IntakeConfigs.intakeConfig, 
             ResetMode.kResetSafeParameters, 
             PersistMode.kPersistParameters);
     }

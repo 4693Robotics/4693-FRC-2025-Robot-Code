@@ -114,17 +114,6 @@ public final class Constants {
         public static final int kTurningMotorCurrentLimit = 20; // amps
     }
 
-    public static final class AlgaeSubsystemConstants {
-        public static final int kAlgaeArmCanId = 10;
-        public static final int kAlgaeIntakeCanId = 11;
-    }
-
-    public static final class CoralIntakeSubsystemConstants {
-        public static final int kNuckleCanId = 20;
-        public static final int kIntakeLeft = 21;
-        public static final int kIntakeRight = 22;
-    }
-
     public static final class LimelightConstants {
         // Used to control the driving speed of the robot based on the distance from the target
         public static final double kP = 0.1;

@@ -54,20 +54,4 @@ public final class Configs {
                         .positionWrappingInputRange(0, turningFactor);        
                 }
         }
-
-        public static final class AlgaeSubsystem {
-                public static final SparkMaxConfig algaeArmConfig = new SparkMaxConfig();
-                public static final SparkMaxConfig algaeIntakeConfig = new SparkMaxConfig();
-
-                static {
-
-                algaeArmConfig
-                        .idleMode(IdleMode.kBrake)
-                        .smartCurrentLimit(50);
-                
-                algaeIntakeConfig
-                        .idleMode(IdleMode.kBrake)
-                        .smartCurrentLimit(20);
-                }
-        } 
 }

@@ -45,7 +45,7 @@ public final class ManipulatorConfigs {
         intakeLeftConfig
             .idleMode(kIntakeLeftIdleMode)
             .smartCurrentLimit(kIntakeLeftCurrentLimit)
-            .inverted(false);
+            .inverted(kIntakeLeftInverted);
 
         intakeRightConfig
             .idleMode(kIntakeRightIdleMode)

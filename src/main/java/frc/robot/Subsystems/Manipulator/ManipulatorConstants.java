@@ -59,7 +59,7 @@ public final class ManipulatorConstants {
 
     /* 
      * Sets the feedback sensor to the corresponding motor.
-    */
+     */
     public static final FeedbackSensor kElevatorFeedbackSensor = FeedbackSensor.kAlternateOrExternalEncoder;
     public static final FeedbackSensor kArmFeedbackSensor = FeedbackSensor.kAbsoluteEncoder;
 
